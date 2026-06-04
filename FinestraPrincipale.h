@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QWidget>
+#include <QThread>
 
 namespace my_project {
     static constexpr int N = 20;
@@ -38,6 +39,9 @@ class FinestraPrincipale : public QWidget {
         void slotD(){
             QMessageBox::warning(this,"Alert counter","Errore: counter raggiunto");
         }
+        void slotE(){
+            QThread::sleep(5);
+        }
     public:
     FinestraPrincipale(QWidget *parent = nullptr) : QWidget(parent) {
         setWindowTitle("Mac Shortcuts Dashboard");
@@ -49,11 +53,13 @@ class FinestraPrincipale : public QWidget {
         QPushButton *btn2 = new QPushButton("Btn2", this);
         QPushButton *btn3 = new QPushButton("Btn3", this);
         QPushButton *btn4 = new QPushButton("Close", this);
+        QPushButton *btn5 = new QPushButton("Thread button",this);
 
         layoutPrincipale->addWidget(btn1);
         layoutPrincipale->addWidget(btn2);
         layoutPrincipale->addWidget(btn3);
         layoutPrincipale->addWidget(btn4);
+        layoutPrincipale->addWidget(btn5);
         
         // Signals e slots per 4 bottoni
         connect(btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
@@ -63,6 +69,7 @@ class FinestraPrincipale : public QWidget {
             slotC();
             qDebug() << "Prova per stampare a terminale";
         });
+        
         connect(btn3,&QPushButton::clicked,this,[this](){
             qDebug() << "Aumento contatore -> valore: " << ++counter;
             if(counter > my_project::N){
@@ -72,6 +79,8 @@ class FinestraPrincipale : public QWidget {
         connect(btn4,&QPushButton::clicked,this,&QWidget::close);
 
         connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
+        
+        connect(btn5,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
     }
 
     private:
