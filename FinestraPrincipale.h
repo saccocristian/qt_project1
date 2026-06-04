@@ -1,138 +1,80 @@
 #pragma once
 
-#include <QWidget>
 #include <QPushButton>
-#include <QLineEdit>
-#include <QLabel>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QStackedWidget> // Nuovo componente per gestire le pagine
 #include <QDebug>
+#include <QMessageBox>
+#include <QWidget>
 
+namespace my_project {
+    static constexpr int N = 20;
+}
+/*
+Funzionamento base
+---
+4 pulsanti
+- btn1 -> 1 slot A
+- btn2 -> 1 slot B + 1 slot C
+- btn3 -> 1 slot D
+- btn4 -> 1 slot D
+*/
 class FinestraPrincipale : public QWidget {
     Q_OBJECT // per usare moc (meta-object compiler)
 
     signals:
-        void categoriaCambiata(const QString &nomeCategoria);
+        // A cosa serve questa sezione?
+        void alertLimiteCounter();
+        
     private slots:
-        void cambiaCategoria() {
-            QPushButton *btn = qobject_cast<QPushButton*>(sender());
-            if (!btn) return;
-            QString nome = btn->text();
-            if (nome == "Brave")      mostraSoloPannello(pannelloBrave);
-            else if (nome == "VS Code")    mostraSoloPannello(pannelloVscode);
-            else if (nome == "Spotify")    mostraSoloPannello(pannelloSpotify);
-            else if (nome == "General")    mostraSoloPannello(pannelloGeneral);
-
-            emit categoriaCambiata(nome);
+        void slotA(){
+            QMessageBox::information(this,"Msg1","Btn1 - Slot A");
         }
-
+        void slotB(){
+            QMessageBox::information(this,"Msg2","btn2 - Slot B");
+        }
+        void slotC(){
+            QMessageBox::information(this,"Msg3","Btn2 - Slot C");
+        }
+        void slotD(){
+            QMessageBox::warning(this,"Alert counter","Errore: counter raggiunto");
+        }
     public:
     FinestraPrincipale(QWidget *parent = nullptr) : QWidget(parent) {
         setWindowTitle("Mac Shortcuts Dashboard");
         resize(500,250);
-
+        
         QVBoxLayout * layoutPrincipale = new QVBoxLayout(this);
-        /*
-        Parte superiore
-        FinestraPrincipale
-            layoutPrincipale
-                barraSuperiore
-                    layoutBarra
-                        btnBrave
-                        ...
-                barraInferiore
-        */
-
-        QWidget *barraSuperiore = new QWidget(this);
-        QHBoxLayout *layoutBarra = new QHBoxLayout(barraSuperiore);
-
-        QPushButton *btnBrave = new QPushButton("Brave", this);
-        QPushButton *btnVscode = new QPushButton("VS Code", this);
-        QPushButton *btnSpotify = new QPushButton("Spotify", this);
-        QPushButton *btnGeneral = new QPushButton("General", this);
-
-        layoutBarra->addWidget(btnBrave);
-        layoutBarra->addWidget(btnVscode);
-        layoutBarra->addWidget(btnSpotify);
-        layoutBarra->addWidget(btnGeneral);
-
-        layoutPrincipale->addWidget(barraSuperiore);
         
-        // Brave 2 pulsanti
-        pannelloBrave = new QWidget(this);
-        QHBoxLayout *layBrave = new QHBoxLayout(pannelloBrave);
-        QPushButton *btnRicarica = new QPushButton("Ricarica",pannelloBrave);
-        QPushButton *btnNewTab = new QPushButton("New Tab",pannelloBrave);
-        layBrave->addWidget(btnRicarica);
-        layBrave->addWidget(btnNewTab);
+        QPushButton *btn1 = new QPushButton("Btn1", this);
+        QPushButton *btn2 = new QPushButton("Btn2", this);
+        QPushButton *btn3 = new QPushButton("Btn3", this);
+        QPushButton *btn4 = new QPushButton("Close", this);
 
-        // VS code 2 pulsanti
-        pannelloVscode = new QWidget(this);
-        QHBoxLayout *layVscode = new QHBoxLayout(pannelloVscode);
-        QPushButton *btnSalva = new QPushButton("Salva",pannelloVscode);
-        QPushButton *btnTerminale = new QPushButton("Terminale",pannelloVscode);
-        layVscode->addWidget(btnSalva);
-        layVscode->addWidget(btnTerminale);
-
-        // Spotify 3 pulsanti
-        pannelloSpotify = new QWidget(this);
-        QHBoxLayout *laySpotify = new QHBoxLayout(pannelloSpotify);
-        QPushButton *btnPrev = new QPushButton("Prev",pannelloSpotify);
-        QPushButton *btnPlay = new QPushButton("Play/Pause",pannelloSpotify);
-        QPushButton *btnNext = new QPushButton("Next",pannelloSpotify);
-        laySpotify->addWidget(btnPrev);
-        laySpotify->addWidget(btnPlay);
-        laySpotify->addWidget(btnNext);
-
-        // General 3 pulsanti
-        pannelloGeneral = new QWidget(this);
-        QHBoxLayout *layGeneral = new QHBoxLayout(pannelloGeneral);
-        QPushButton *btnStop = new QPushButton("Stop",pannelloGeneral);
-        QPushButton *btnVolPiu = new QPushButton("Vol +",pannelloGeneral);
-        QPushButton *btnVolMeno = new QPushButton("Vol -", pannelloGeneral);
-        layGeneral->addWidget(btnStop);
-        layGeneral->addWidget(btnVolPiu);
-        layGeneral->addWidget(btnVolMeno);
-
-        layoutPrincipale->addWidget(pannelloBrave);
-        layoutPrincipale->addWidget(pannelloVscode);
-        layoutPrincipale->addWidget(pannelloSpotify);
-        layoutPrincipale->addWidget(pannelloGeneral);
-
-        mostraSoloPannello(pannelloBrave);
-
-        // Signals e slots per 4 bottoni principali
-        connect(btnBrave,   &QPushButton::clicked, this, &FinestraPrincipale::cambiaCategoria);
-        connect(btnVscode,  &QPushButton::clicked, this, &FinestraPrincipale::cambiaCategoria);
-        connect(btnSpotify, &QPushButton::clicked, this, &FinestraPrincipale::cambiaCategoria);
-        connect(btnGeneral, &QPushButton::clicked, this, &FinestraPrincipale::cambiaCategoria);
+        layoutPrincipale->addWidget(btn1);
+        layoutPrincipale->addWidget(btn2);
+        layoutPrincipale->addWidget(btn3);
+        layoutPrincipale->addWidget(btn4);
         
-        connect(this, &FinestraPrincipale::categoriaCambiata,
-        this, &QWidget::setWindowTitle);
+        // Signals e slots per 4 bottoni
+        connect(btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
 
-        // Connessioni (fittizie) per app
-        connect(btnRicarica, &QPushButton::clicked, []() { qDebug() << "Eseguo: Invia Command+R a Brave"; });
-        connect(btnNewTab, &QPushButton::clicked, []() { qDebug() << "Eseguo: Invia Command+T a Brave"; });
-        connect(btnSalva, &QPushButton::clicked, []() { qDebug() << "Eseguo: Invia Command+S a VS Code"; });
-        connect(btnTerminale, &QPushButton::clicked, []() { qDebug() << "Eseguo: Invia Ctrl+Shift+T a VS Code"; });
+        connect(btn2,&QPushButton::clicked,this,[this](){
+            slotB();
+            slotC();
+            qDebug() << "Prova per stampare a terminale";
+        });
+        connect(btn3,&QPushButton::clicked,this,[this](){
+            qDebug() << "Aumento contatore -> valore: " << ++counter;
+            if(counter > my_project::N){
+                alertLimiteCounter();
+            }
+        });
+        connect(btn4,&QPushButton::clicked,this,&QWidget::close);
+
+        connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
     }
 
     private:
+        int counter = 0;
 
-        void mostraSoloPannello(QWidget *pannelloDaMostrare) {
-            pannelloBrave->hide();
-            pannelloVscode->hide();
-            pannelloSpotify->hide();
-            pannelloGeneral->hide();
-            
-            pannelloDaMostrare->show();
-        }
-
-        // Puntatori ai nostri 4 pannelli per poterli mostrare/nascondere
-        QWidget *pannelloBrave;
-        QWidget *pannelloVscode;
-        QWidget *pannelloSpotify;
-        QWidget *pannelloGeneral;
-        
 };
