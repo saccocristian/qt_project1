@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QThread>
+#include <QProgressBar>
 
 namespace my_project {
     static constexpr int N = 20;
@@ -24,7 +25,6 @@ class FinestraPrincipale : public QWidget {
     Q_OBJECT // per usare moc (meta-object compiler)
 
     signals:
-        // A cosa serve questa sezione?
         void alertLimiteCounter();
         
     private slots:
@@ -38,5 +38,6 @@ class FinestraPrincipale : public QWidget {
 
     private:
         int counter = 0;
+        QProgressBar *m_progressBar;
 
 };

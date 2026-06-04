@@ -16,7 +16,9 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 add_executable(QtHello 
     main.cpp
     FinestraPrincipale.h
-    FinestraPrincipale.cpp)
+    FinestraPrincipale.cpp
+    Worker.h
+    Worker.cpp)
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtHello PRIVATE Qt6::Widgets)
