@@ -10,3 +10,7 @@ void Worker::doWork(){
     }
     emit finished("Lavoro Finito");
 }
+
+Worker::~Worker(){
+    qDebug() << "Distruttore -> QObject : Worker";
+}

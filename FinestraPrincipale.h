@@ -8,6 +8,7 @@
 #include <QThread>
 #include <QProgressBar>
 
+
 namespace my_project {
     static constexpr int N = 20;
 }
@@ -36,10 +37,13 @@ class FinestraPrincipale : public QWidget {
         void slotD();
         void slotE();
     public:
-    FinestraPrincipale(QWidget *parent = nullptr);
+    explicit FinestraPrincipale(QWidget *parent = nullptr);
+
+    //Distruttore
+    ~FinestraPrincipale();
 
     private:
-        int counter = 0;
-        QProgressBar *m_progressBar;
+        int counter{0};
+        QProgressBar *m_progressBar{nullptr};
 
 };

@@ -18,7 +18,10 @@ add_executable(QtHello
     FinestraPrincipale.h
     FinestraPrincipale.cpp
     Worker.h
-    Worker.cpp)
+    Worker.cpp
+    MyBtn.h
+    MyBtn.cpp
+    MyThread.h)
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtHello PRIVATE Qt5::Widgets)

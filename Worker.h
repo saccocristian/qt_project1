@@ -1,10 +1,11 @@
 #pragma once
 #include <QObject>
-
+#include <QDebug>
 class Worker : public QObject {
     Q_OBJECT
 public:
-    Worker(QObject *parent = nullptr);
+    explicit Worker(QObject *parent = nullptr);
+    ~Worker();
 
 public slots:
     void doWork();       // il lavoro pesante (il loop con sleep)
