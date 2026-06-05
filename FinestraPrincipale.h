@@ -11,6 +11,7 @@
 namespace my_project {
     static constexpr int N = 20;
 }
+
 /*
 Funzionamento base
 ---
@@ -21,6 +22,7 @@ Funzionamento base
 - btn4 -> chiude app
 ' btn5 -> simula sleep 5s
 */
+
 class FinestraPrincipale : public QWidget {
     Q_OBJECT // per usare moc (meta-object compiler)
 
