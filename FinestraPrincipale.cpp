@@ -3,6 +3,7 @@
 #include <QProgressBar>
 #include "MyThread.h"
 #include "MyBtn.h"
+#include <memory.h>
 
 // "private slots:" va messo solo quando si trova nel .h
 void FinestraPrincipale::slotA(){
@@ -80,37 +81,45 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QWidget(parent) {
     
     QVBoxLayout * layoutPrincipale = new QVBoxLayout(this);
 
-    MyBtn *btn1 = new MyBtn("Btn1", this);
+/*     MyBtn *btn1 = new MyBtn("Btn1", this);
     MyBtn *btn2 = new MyBtn("Btn2", this);
     MyBtn *btn3 = new MyBtn("Btn3", this);
     MyBtn *btn4 = new MyBtn("Close", this);
-    MyBtn *btn5 = new MyBtn("Thread button",this);
-    m_progressBar = new QProgressBar(this);
+    MyBtn *btn5 = new MyBtn("Thread button",this); */
+
+    std::unique_ptr<MyBtn> btn1 = std::make_unique<MyBtn>("Btn1",this);
+    std::unique_ptr<MyBtn> btn2 = std::make_unique<MyBtn>("Btn2",this);
+    std::unique_ptr<MyBtn> btn3 = std::make_unique<MyBtn>("Btn3",this);
+    QScopedPointer<MyBtn> btn4 (new MyBtn("Btn4",this));
+    QScopedPointer<MyBtn> btn5 (new MyBtn("Btn4",this));
+
+
+    m_progressBar = std::make_unique<QProgressBar> (nullptr);
     m_progressBar->setValue(0);
 
-    layoutPrincipale->addWidget(btn1);
-    layoutPrincipale->addWidget(btn2);
-    layoutPrincipale->addWidget(btn3);
-    layoutPrincipale->addWidget(btn4);
-    layoutPrincipale->addWidget(btn5);
-    layoutPrincipale->addWidget(m_progressBar);
+    layoutPrincipale->addWidget(btn1.get());
+    layoutPrincipale->addWidget(btn2.get());
+    layoutPrincipale->addWidget(btn3.get());
+    layoutPrincipale->addWidget(btn4.get());
+    layoutPrincipale->addWidget(btn5.get());
+    layoutPrincipale->addWidget(m_progressBar.get());
 
     // Signals e slots per 4 bottoni
-    connect(btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
-    connect(btn2,&QPushButton::clicked,this,[this](){
+    connect(btn1.get(),&QPushButton::clicked,this,&FinestraPrincipale::slotA);
+    connect(btn2.get(),&QPushButton::clicked,this,[this](){
         slotB();
         slotC();
         qDebug() << "Prova per stampare a terminale";
     });
-    connect(btn3,&QPushButton::clicked,this,[this](){
+    connect(btn3.get(),&QPushButton::clicked,this,[this](){
         qDebug() << "Aumento contatore -> valore: " << ++counter;
         if(counter > my_project::N){
             alertLimiteCounter();
         }
     });
-    connect(btn4,&QPushButton::clicked,this,&QWidget::close);
+    connect(btn4.get(),&QPushButton::clicked,this,&QWidget::close);
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
-    connect(btn5,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
+    connect(btn5.get(),&QPushButton::clicked,this,&FinestraPrincipale::slotE);
 }
 
 FinestraPrincipale::~FinestraPrincipale() {

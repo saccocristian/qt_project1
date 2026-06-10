@@ -44,6 +44,15 @@ class FinestraPrincipale : public QWidget {
 
     private:
         int counter{0};
-        QProgressBar *m_progressBar{nullptr};
+        // QProgressBar *m_progressBar{nullptr};
+
+        /* 
+        Commento ridondante: creo un ptr grazie alla funzione make_unique, 
+        cosi da poter passare come argomento l'argomento che 
+        andrebbe all'oggetto senza doverne creare uno nuovo.
+        Senza usare make_unique, dovrei fare new e creare un oggetto QProgressBar
+        con argomento nullptr (che e' il parent della progress bar)
+        */
+        std::unique_ptr<QProgressBar> m_progressBar;
 
 };
