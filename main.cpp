@@ -20,6 +20,7 @@ int main(int argc, char *argv[]){
     // main event loop non ancora partito
     qDebug() << "Avvio Main Event Loop ...";
     int app_res = app.exec();
+    
     qDebug() << "Main Event Loop terminato";
     return app_res;
 }

@@ -5,7 +5,7 @@ Worker::Worker(QObject *parent) : QObject(parent) {}
 
 void Worker::doWork(){
     for (int i=0; i<=100;++i){
-        QThread::msleep(50);
+        QThread::msleep(10);
         emit progress(i);
     }
     emit finished("Lavoro Finito");
