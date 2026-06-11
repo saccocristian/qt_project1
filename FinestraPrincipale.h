@@ -31,6 +31,7 @@ class FinestraPrincipale : public QWidget {
 
     signals:
         void alertLimiteCounter();
+        void cleanup();
         
     private slots:
         void slotA();
@@ -58,6 +59,7 @@ class FinestraPrincipale : public QWidget {
         QPointer<MyBtn> btn5;
         QPointer<QProgressBar> m_progressBar;
 
-
+        QPointer<MyThread> thread;
+        QPointer<Worker> worker;
         
 };

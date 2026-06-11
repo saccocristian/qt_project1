@@ -63,12 +63,46 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QWidget(parent) {
     connect(btn4,&QPushButton::clicked,this,&QWidget::close);
     connect(btn5,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
     qDebug() << "----- Prova2 -----";
+
+    thread = new MyThread();
+    thread->setObjectName("MyThreadName");
+
+    worker = new Worker();
+    worker->moveToThread(thread);
+
+    //
+    connect(thread,&QThread::started,worker,&Worker::doWork);
+    connect(thread,&QThread::started,this,[](){
+        qDebug() << "thread::started\t->\tworker::doWork -- ThreadId:" << QThread::currentThreadId();
+    });
+
+    //
+    connect(worker, &Worker::progress, this, [this](int v){
+        qDebug() << "ProgressBar -- ThreadId: " <<QThread::currentThreadId();
+        m_progressBar->setValue(v);
+    });
+
+    //
+    connect(this,&FinestraPrincipale::cleanup,thread,&MyThread::quit);
+    connect(this,&FinestraPrincipale::cleanup,this,[](){
+        qDebug() << "FinestraPrincipale::cleanup\t->\tthread::quit";
+    });
+
+    connect(this,&FinestraPrincipale::cleanup,thread,&MyThread::deleteLater);
+
+    connect(this,&FinestraPrincipale::cleanup,worker,&Worker::deleteLater);
+    connect(this,&FinestraPrincipale::cleanup,this,[](){
+        qDebug() << "";
+    });
+
+    connect(worker,&Worker::finished,thread,&MyThread::quit);
 }
 
 // Distruttore
-
 FinestraPrincipale::~FinestraPrincipale() {
     qDebug() << "Distruttore -> QWidget : FinestraPrincipale";
+    // TODO: gestire chiusura finestra con doWork ancora in esecuzione
+    emit cleanup();
 }
 
 //Funzioni
@@ -87,52 +121,13 @@ void FinestraPrincipale::slotD(){
 }
 void FinestraPrincipale::slotE(){
     
-    qDebug() << "Slot E";
+    qDebug() << "Slot E -- ThreadId:" << QThread::currentThreadId();
 
-    QPointer<MyThread> thread;
-    QPointer<Worker> worker;
+    if(thread && thread->isRunning()){
+        qDebug() << "Thread is already running.";
+        return;
+    }
 
-    thread = new MyThread();
-    thread->setObjectName("MyThreadName");
-
-    worker = new Worker();
-    worker->moveToThread(thread);
-
-    /*
-    1. thread::started    -> worker::doWork
-    2. worker::finished   -> thread::quit
-    3. worker::finished   -> worker::deleteLater
-    4. thread::finished   -> thread::deleteLater
-    */
-
-    // 1.
-    connect(thread,&QThread::started,worker,&Worker::doWork);
-    connect(thread,&QThread::started,this,[](){
-        qDebug() << "1. thread::started\t->\tworker::doWork";
-    });
-
-    // 1a.
-    connect(worker, &Worker::progress, this, [this](int v){
-        m_progressBar->setValue(v);
-    });
-
-    // 2.
-    connect(worker,&Worker::finished,thread,&MyThread::quit);
-    connect(worker,&Worker::finished,this,[](){
-        qDebug() << "2. worker::finished\t->\tthread::quit";
-    });
-
-    // 3.
-    connect(worker,&Worker::finished,worker,&Worker::deleteLater);
-    connect(thread,&MyThread::finished,this,[](){
-        qDebug() << "3. worker::finished\t->\tworker::deleteLater";
-    });
-
-    // 4. 
-    connect(thread,&MyThread::finished,thread,&MyThread::deleteLater);
-    connect(thread,&MyThread::finished,this,[](){
-        qDebug() << "4. thread::finished\t->\tthread::deleteLater";
-    });
     
     thread->start();
 }
