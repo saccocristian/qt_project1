@@ -17,13 +17,13 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QWidget(parent) {
     layoutPrincipale = new QVBoxLayout(this);
     
     // make_unique -> QPointer
-    btn1 = new MyBtn("Btn1 - 1 signal 1 slot",this);
-    btn2 = new MyBtn("Btn2 - 1 signal 2 slot",this);
-    btn3 = new MyBtn("Btn3 - incremento counter",this);
-    btn4 = new MyBtn("Btn4 - chiusura app",this);
-    btn5 = new MyBtn("Btn5 - simulazione multithreading",this);
+    btn1 = new MyBtn("Btn1: 1 Signal 1 Slot",this);
+    btn2 = new MyBtn("Btn2: 1 Signal 2 Slot",this);
+    btn3 = new MyBtn("Btn3: Incremento Counter",this);
+    btn4 = new MyBtn("Btn4: Chiusura App",this);
+    btn5 = new MyBtn("Btn5: Simulazione Multithreading",this);
 
-    btn1->setObjectName("Btn1");
+    btn1->setObjectName("btn1");
     btn2->setObjectName("btn2");
     btn3->setObjectName("btn3");
     btn4->setObjectName("btn4");
@@ -89,6 +89,9 @@ void FinestraPrincipale::slotE(){
     
     qDebug() << "Slot E";
 
+    QPointer<MyThread> thread;
+    QPointer<Worker> worker;
+
     thread = new MyThread();
     thread->setObjectName("MyThreadName");
 
@@ -105,7 +108,7 @@ void FinestraPrincipale::slotE(){
     // 1.
     connect(thread,&QThread::started,worker,&Worker::doWork);
     connect(thread,&QThread::started,this,[](){
-        qDebug() << "1. thread::started\t\t->\tworker::doWork";
+        qDebug() << "1. thread::started\t->\tworker::doWork";
     });
 
     // 1a.
@@ -116,19 +119,19 @@ void FinestraPrincipale::slotE(){
     // 2.
     connect(worker,&Worker::finished,thread,&MyThread::quit);
     connect(worker,&Worker::finished,this,[](){
-        qDebug() << "2. worker::finished\t\t->\tthread::quit";
+        qDebug() << "2. worker::finished\t->\tthread::quit";
     });
 
     // 3.
     connect(worker,&Worker::finished,worker,&Worker::deleteLater);
     connect(thread,&MyThread::finished,this,[](){
-        qDebug() << "3. worker::finished\t\t->\tworker::deleteLater";
+        qDebug() << "3. worker::finished\t->\tworker::deleteLater";
     });
 
     // 4. 
     connect(thread,&MyThread::finished,thread,&MyThread::deleteLater);
     connect(thread,&MyThread::finished,this,[](){
-        qDebug() << "4. thread::finished\t\t->\tthread::deleteLater";
+        qDebug() << "4. thread::finished\t->\tthread::deleteLater";
     });
     
     thread->start();

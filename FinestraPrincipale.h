@@ -58,7 +58,6 @@ class FinestraPrincipale : public QWidget {
         QPointer<MyBtn> btn5;
         QPointer<QProgressBar> m_progressBar;
 
-        QPointer<MyThread> thread;
-        QPointer<Worker> worker;
+
         
 };
