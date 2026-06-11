@@ -1,5 +1,6 @@
 #include "FinestraPrincipale.h"
 #include <QApplication>
+#include <QThread>
 
 class Foo {
     public:
@@ -19,7 +20,10 @@ int main(int argc, char *argv[]){
     finestra.show();
     // main event loop non ancora partito
     qDebug() << "Avvio Main Event Loop ...";
+    qDebug() << "Main.cpp -- ThreadId: " <<QThread::currentThreadId();
+
     int app_res = app.exec();
+    
     qDebug() << "Main Event Loop terminato";
     return app_res;
 }
