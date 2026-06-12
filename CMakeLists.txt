@@ -11,11 +11,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Cerca i pacchetti Qt (Homebrew viene rilevato automaticamente se hai impostato il PATH)
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 add_executable(QtHello 
     main.cpp
-    FinestraPrincipale.h)
+    FinestraPrincipale.h
+    FinestraPrincipale.cpp
+    Worker.h
+    Worker.cpp
+    MyBtn.h
+    MyBtn.cpp
+    MyThread.h)
 
 # Collega le librerie di Qt al tuo eseguibile
-target_link_libraries(QtHello PRIVATE Qt6::Widgets)
+target_link_libraries(QtHello PRIVATE Qt5::Widgets)

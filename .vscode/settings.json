@@ -1,0 +1,7 @@
+{
+    "cmake.cmakePath": "C:/vs_build_tools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe",
+    "cmake.generator": "Ninja",
+    "cmake.configureArgs": [
+        "-DCMAKE_PREFIX_PATH=C:/workspaces_personal/Qt5.15.14-Windows-x86_64-VS2022-17.10.3"
+    ]
+}
