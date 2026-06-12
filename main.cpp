@@ -5,7 +5,7 @@
 class Foo {
     public:
     ~Foo(){
-        qDebug() << "Distruttore foo";
+        qDebug() << "~ Classe Foo";
     }
 };
 
@@ -18,12 +18,13 @@ int main(int argc, char *argv[]){
     FinestraPrincipale finestra;
     //finestra.setAttribute(Qt::WA_DeleteOnClose);
     finestra.show();
+
     // main event loop non ancora partito
-    qDebug() << "Avvio Main Event Loop ...";
-    qDebug() << "Main.cpp -- ThreadId: " <<QThread::currentThreadId();
+    qDebug() << "--- Main Event Loop: Inizio ---";
+    qDebug() << "Main.cpp -- ThreadId: " << QThread::currentThreadId();
 
     int app_res = app.exec();
     
-    qDebug() << "Main Event Loop terminato";
+    qDebug() << "--- Main Event Loop: Fine ---";
     return app_res;
 }
