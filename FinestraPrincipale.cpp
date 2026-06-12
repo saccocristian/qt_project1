@@ -14,9 +14,9 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QWidget(parent) {
     setWindowTitle("Qt Test Dashboard");
     resize(500,250);
 
+    // Sezione GUI
     layoutPrincipale = new QVBoxLayout(this);
     
-    // make_unique -> QPointer
     btn1 = new MyBtn("Btn1: 1 Signal 1 Slot",this);
     btn2 = new MyBtn("Btn2: 1 Signal 2 Slot",this);
     btn3 = new MyBtn("Btn3: Incremento Counter",this);
@@ -39,68 +39,69 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QWidget(parent) {
     layoutPrincipale->addWidget(btn5);
     layoutPrincipale->addWidget(m_progressBar);
     
-    qDebug() << "----- Prova -----";
-
-    // Signals e slots per 4 bottoni
-    connect(btn1,&QPushButton::clicked,this,[this](){
-        slotA();
-        qDebug() << "Slot A";
-    });
+    // Sezione Signals e slots buttons
+    connect(btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
     connect(btn2,&QPushButton::clicked,this,[this](){
         slotB();
         slotC();
-        qDebug() << "Slot B";
     });
     connect(btn3,&QPushButton::clicked,this,[this](){
-        qDebug() <<"Aumento contatore -> valore: " << ++counter;
+        qDebug() <<"Btn 3 -> Counter: " << ++counter;
         if(counter > my_project::N){
             alertLimiteCounter();
         }
-        qDebug() << "Slot C";
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
-
     connect(btn4,&QPushButton::clicked,this,&QWidget::close);
     connect(btn5,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
-    qDebug() << "----- Prova2 -----";
-
+    
+    // Sezione Thread
     thread = new MyThread();
     thread->setObjectName("MyThreadName");
 
     worker = new Worker();
     worker->moveToThread(thread);
 
-    //
+    // Gestione esecuzione worker::doWork
     connect(thread,&QThread::started,worker,&Worker::doWork);
     connect(thread,&QThread::started,this,[](){
         qDebug() << "thread::started\t->\tworker::doWork -- ThreadId:" << QThread::currentThreadId();
     });
 
-    //
     connect(worker, &Worker::progress, this, [this](int v){
-        qDebug() << "ProgressBar -- ThreadId: " <<QThread::currentThreadId();
+        if(v==0){
+            qDebug() << "ProgressBar -- ThreadId: " <<QThread::currentThreadId();
+        }
         m_progressBar->setValue(v);
     });
 
-    //
+    /* Gestione chiusura finestra:
+        - Quando invoco distruttore finestra, emetto cleanup()
+        - cleanup si occupa di gestire cancellazione thread e worker
+    */
     connect(this,&FinestraPrincipale::cleanup,thread,&MyThread::quit);
-    connect(this,&FinestraPrincipale::cleanup,this,[](){
-        qDebug() << "FinestraPrincipale::cleanup\t->\tthread::quit";
-    });
-
     connect(this,&FinestraPrincipale::cleanup,thread,&MyThread::deleteLater);
-
     connect(this,&FinestraPrincipale::cleanup,worker,&Worker::deleteLater);
+
     connect(this,&FinestraPrincipale::cleanup,this,[](){
-        qDebug() << "";
+        qDebug() << "------------------------------------";
+
+        qDebug() << "FinestraPrincipale::cleanup -> thread::quit";
+        qDebug() << "FinestraPrincipale::cleanup -> thread::deleteLater";
+        qDebug() << "FinestraPrincipale::cleanup -> worker::deleteLater";
     });
 
+    /* Gestione chiusura thread per riutilizzo:
+        - quando il worker finisce, il thread viene 
+            chiuso, ma puo' ripartire con start
+    */
     connect(worker,&Worker::finished,thread,&MyThread::quit);
+
 }
 
 // Distruttore
 FinestraPrincipale::~FinestraPrincipale() {
-    qDebug() << "Distruttore -> QWidget : FinestraPrincipale";
+    qDebug() << "~ QWidget : FinestraPrincipale";
     // TODO: gestire chiusura finestra con doWork ancora in esecuzione
     emit cleanup();
 }
@@ -120,7 +121,7 @@ void FinestraPrincipale::slotD(){
     QMessageBox::warning(this,"Alert counter","Errore: counter raggiunto");
 }
 void FinestraPrincipale::slotE(){
-    
+    qDebug() << "------------------------------------";
     qDebug() << "Slot E -- ThreadId:" << QThread::currentThreadId();
 
     if(thread && thread->isRunning()){
@@ -128,6 +129,5 @@ void FinestraPrincipale::slotE(){
         return;
     }
 
-    
     thread->start();
 }
