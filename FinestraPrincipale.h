@@ -33,6 +33,15 @@ namespace my_project {
 class FinestraPrincipale : public QMainWindow {
     Q_OBJECT // per usare moc (meta-object compiler)
 
+    public:
+    // Costruttore
+    explicit FinestraPrincipale(QMainWindow *parent = nullptr);
+    //Distruttore
+    ~FinestraPrincipale();
+
+    protected:
+        void closeEvent(QCloseEvent *event) override;
+
     signals:
         void alertLimiteCounter();
         void cleanup();
@@ -43,13 +52,7 @@ class FinestraPrincipale : public QMainWindow {
         void slotC();
         void slotD();
         void slotE();
-
-    public:
-    // Costruttore
-    explicit FinestraPrincipale(QMainWindow *parent = nullptr);
-    //Distruttore
-    ~FinestraPrincipale();
-    void closeEvent(QCloseEvent *event) override;
+        
     private:
         int counter{0};
 

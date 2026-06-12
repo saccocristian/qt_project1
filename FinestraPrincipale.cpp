@@ -51,7 +51,7 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
     widget ->setLayout(layoutPrincipale);
     
     // Finestra dialog secondaria
-    finestraDialog = new QDialog(widget);
+    finestraDialog = new QDialog(this);
     finestraDialog->setWindowTitle("Counter Dialog");
     finestraDialog->resize(500,400);
     
@@ -161,5 +161,5 @@ void FinestraPrincipale::closeEvent(QCloseEvent *event){
         event->ignore();
         return;
     }
-    event->accept();
+    QMainWindow::closeEvent(event);
 }
