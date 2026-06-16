@@ -23,6 +23,18 @@
 class FinestraPrincipale::FinestraPrincipaleImpl {
 
     public:
+
+        int getCounter() const {
+            return m_counter;
+        }
+
+        void setCounter(const int counter){
+            m_counter = counter;
+        }
+
+        void incrementCounter(){
+            m_counter +=1;
+        }
         QPointer<QVBoxLayout> layoutPrincipale;
         QPointer <QWidget> widget;
         QPointer<MyBtn> btn1;
@@ -37,6 +49,8 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
 
+    private:
+        int m_counter{0};
 };
 
 // Costruttore
@@ -90,8 +104,9 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
         slotC();
     });
     connect(impl->btn3,&QPushButton::clicked,this,[this](){
-        qDebug() <<"Btn 3 -> Counter: " << ++counter;
-        if(counter > my_project::N){
+        impl->incrementCounter();
+        qDebug() <<"Btn 3 -> Counter: " << impl->getCounter();
+        if(impl->getCounter() > my_project::N){
             alertLimiteCounter();
         }
     });
@@ -207,11 +222,11 @@ void FinestraPrincipale::createDialog() {
     auto setCounterValue = [this, &spinboxDialog, &finestraDialog](int value){
         switch(value) {
         case 1:
-            counter = spinboxDialog->value();
+            this->impl->setCounter(spinboxDialog->value());
             finestraDialog.close();
             break;
         case 0:
-            counter = 0;
+            this->impl->setCounter(0);
             QMessageBox::information(this,"Reset Counter","Variabile impostata a zero");
             finestraDialog.close();
             break;

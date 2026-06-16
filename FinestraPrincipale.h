@@ -43,7 +43,6 @@ class FinestraPrincipale : public QMainWindow {
         void createDialog();
         
     private:
-        int counter{0};
         class FinestraPrincipaleImpl;
         FinestraPrincipaleImpl * impl;
 
