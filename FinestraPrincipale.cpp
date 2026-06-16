@@ -17,7 +17,7 @@
 #include "Worker.h"
 #include "MyDialog.h"
 /* Struttura:
- costruttore - distruttore - funzioni
+ impl - costruttore - distruttore - funzioni
 */
 
 class FinestraPrincipale::FinestraPrincipaleImpl {
@@ -54,16 +54,13 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
 };
 
 // Costruttore
-FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent),impl(new FinestraPrincipaleImpl) {
+FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent),impl(std::make_unique<FinestraPrincipaleImpl>()) {
     /*  Sezione GUI - Struttura Main window:
         - https://doc.qt.io/qt-6/qtwidgets-mainwindows-menus-example.html
         - MainWindow -> CentralWidget -> QVBoxLayout -> btns + progress bar
     */
     setWindowTitle("Qt Test Dashboard");
     resize(800,300);
-
-    // Inizializzazione impl messa dove c'e' il costruttore
-    // impl = new FinestraPrincipaleImpl();
 
     impl->widget = new QWidget();
     setCentralWidget(impl->widget);
@@ -158,7 +155,6 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
 // Distruttore
 FinestraPrincipale::~FinestraPrincipale() {
     qDebug() << "~ QWidget : FinestraPrincipale";
-    delete impl;
     emit cleanup();
 }
 

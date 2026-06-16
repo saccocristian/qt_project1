@@ -2,28 +2,18 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <memory>
 
 namespace my_project {
     static constexpr int N = 20;
 }
 
-/* Funzionamento:
-- btn1 -> 1 slot A
-- btn2 -> 1 slot B + 1 slot C
-- btn3 -> 1 slot D
-- btn4 -> chiude app
-- btn5 -> thread loading bar
-- btn6 -> imposta valore var "counter"
-*/
-
 class FinestraPrincipale : public QMainWindow {
     Q_OBJECT // per usare moc (meta-object compiler)
 
     public:
-    // Costruttore
-    explicit FinestraPrincipale(QMainWindow *parent = nullptr);
-    //Distruttore
-    ~FinestraPrincipale();
+        explicit FinestraPrincipale(QMainWindow *parent = nullptr);
+        ~FinestraPrincipale();
 
     protected:
         void closeEvent(QCloseEvent *event) override;
@@ -43,7 +33,9 @@ class FinestraPrincipale : public QMainWindow {
         void createDialog();
         
     private:
+        // forward declaration
         class FinestraPrincipaleImpl;
-        FinestraPrincipaleImpl * impl;
-
-};
+        
+        // il ptr e' un tipo completo, ovvero la dimensione di un ptr e' nota e fissa
+        std::unique_ptr<FinestraPrincipaleImpl> impl;
+    };
