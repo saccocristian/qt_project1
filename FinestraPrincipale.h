@@ -10,12 +10,15 @@
 #include <QPointer>
 #include <QMainWindow>
 #include <QLabel>
-#include <memory.h>
+#include <QSpinBox>
 #include <QCloseEvent>
+
+#include <memory.h>
 
 #include "MyBtn.h"
 #include "MyThread.h"
 #include "Worker.h"
+#include "MyDialog.h"
 
 namespace my_project {
     static constexpr int N = 20;
@@ -45,6 +48,8 @@ class FinestraPrincipale : public QMainWindow {
     signals:
         void alertLimiteCounter();
         void cleanup();
+        void setCounter();
+        void resetCounter(int value);
         
     private slots:
         void slotA();
@@ -52,6 +57,7 @@ class FinestraPrincipale : public QMainWindow {
         void slotC();
         void slotD();
         void slotE();
+        void createDialog();
         
     private:
         int counter{0};
@@ -66,9 +72,7 @@ class FinestraPrincipale : public QMainWindow {
         QPointer<MyBtn> btn6;
         QPointer<QProgressBar> m_progressBar;
 
-        QPointer<QDialog> finestraDialog;
-        QPointer<QLabel> labelDialogSecondario;
-
+        // Thread logics
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
         

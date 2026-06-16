@@ -21,7 +21,11 @@ add_executable(QtProject1
     Worker.cpp
     MyBtn.h
     MyBtn.cpp
-    MyThread.h)
+    MyThread.h
+    FooClass.h
+    FooClassImpl.cpp
+    MyDialog.h
+    MyDialog.cpp)
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
