@@ -1,7 +1,7 @@
 #include "FinestraPrincipale.h"
 #include <QApplication>
 #include <QThread>
-
+#include <QDebug>
 class Foo {
     public:
     ~Foo(){

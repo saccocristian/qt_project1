@@ -1,24 +1,7 @@
 #pragma once
 
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QDebug>
-#include <QMessageBox>
-#include <QWidget>
-#include <QThread>
-#include <QProgressBar>
-#include <QPointer>
 #include <QMainWindow>
-#include <QLabel>
-#include <QSpinBox>
 #include <QCloseEvent>
-
-#include <memory.h>
-
-#include "MyBtn.h"
-#include "MyThread.h"
-#include "Worker.h"
-#include "MyDialog.h"
 
 namespace my_project {
     static constexpr int N = 20;
@@ -61,19 +44,7 @@ class FinestraPrincipale : public QMainWindow {
         
     private:
         int counter{0};
+        class FinestraPrincipaleImpl;
+        FinestraPrincipaleImpl * impl;
 
-        QPointer<QVBoxLayout> layoutPrincipale;
-
-        QPointer<MyBtn> btn1;
-        QPointer<MyBtn> btn2;
-        QPointer<MyBtn> btn3;
-        QPointer<MyBtn> btn4;
-        QPointer<MyBtn> btn5;
-        QPointer<MyBtn> btn6;
-        QPointer<QProgressBar> m_progressBar;
-
-        // Thread logics
-        QPointer<MyThread> thread;
-        QPointer<Worker> worker;
-        
 };
