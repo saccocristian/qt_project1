@@ -1,24 +1,21 @@
 #include "FinestraPrincipale.h"
-#include <QPushButton>
-#include <QVBoxLayout>
+
 #include <QDebug>
-#include <QMessageBox>
 #include <QWidget>
 #include <QThread>
-#include <QProgressBar>
 #include <QPointer>
-#include <QLabel>
-#include <QSpinBox>
+#include <QMessageBox>
 
-#include <memory.h>
+#include "ui_FinestraPrincipale.h"
+#include "ui_DialogCounter.h"
+// #include "ui_DialogString.h"
 
 #include "MyBtn.h"
 #include "MyThread.h"
 #include "Worker.h"
 #include "MyDialog.h"
-/* Struttura:
- impl - costruttore - distruttore - funzioni
-*/
+
+// Struttura file: impl - costruttore - distruttore - funzioni
 
 class FinestraPrincipale::FinestraPrincipaleImpl {
 
@@ -27,23 +24,12 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         int getCounter() const {
             return m_counter;
         }
-
         void setCounter(const int counter){
             m_counter = counter;
         }
-
         void incrementCounter(){
             m_counter +=1;
         }
-        QPointer<QVBoxLayout> layoutPrincipale;
-        QPointer <QWidget> widget;
-        QPointer<MyBtn> btn1;
-        QPointer<MyBtn> btn2;
-        QPointer<MyBtn> btn3;
-        QPointer<MyBtn> btn4;
-        QPointer<MyBtn> btn5;
-        QPointer<MyBtn> btn6;
-        QPointer<QProgressBar> m_progressBar;
 
         // Thread logics
         QPointer<MyThread> thread;
@@ -54,53 +40,24 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
 };
 
 // Costruttore
-FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent),impl(std::make_unique<FinestraPrincipaleImpl>()) {
+FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), impl(std::make_unique<FinestraPrincipaleImpl>()) {
     /*  Sezione GUI - Struttura Main window:
         - https://doc.qt.io/qt-6/qtwidgets-mainwindows-menus-example.html
         - MainWindow -> CentralWidget -> QVBoxLayout -> btns + progress bar
     */
+    m_ui = std::make_unique<Ui::MainWindow>();
+    m_ui->setupUi(this);
+
     setWindowTitle("Qt Test Dashboard");
-    resize(800,300);
-
-    impl->widget = new QWidget();
-    setCentralWidget(impl->widget);
-
-    impl->layoutPrincipale = new QVBoxLayout();
-
-    impl->btn1 = new MyBtn("Btn1: 1 Signal 1 Slot",this);
-    impl->btn2 = new MyBtn("Btn2: 1 Signal 2 Slot",this);
-    impl->btn3 = new MyBtn("Btn3: Incremento Counter",this);
-    impl->btn4 = new MyBtn("Btn4: Chiusura App",this);
-    impl->btn5 = new MyBtn("Btn5: Simulazione Multithreading",this);
-    impl->btn6 = new MyBtn("Btn6: Apertura QDialog",this);
-
-    impl->btn1->setObjectName("btn1");
-    impl->btn2->setObjectName("btn2");
-    impl->btn3->setObjectName("btn3");
-    impl->btn4->setObjectName("btn4");
-    impl->btn5->setObjectName("btn5");
-    impl->btn6->setObjectName("btn6");
-
-    impl->m_progressBar = new QProgressBar (this);
-    impl->m_progressBar->setValue(0);
-
-    impl->layoutPrincipale->addWidget(impl->btn1);
-    impl->layoutPrincipale->addWidget(impl->btn2);
-    impl->layoutPrincipale->addWidget(impl->btn3);
-    impl->layoutPrincipale->addWidget(impl->btn4);
-    impl->layoutPrincipale->addWidget(impl->btn5);
-    impl->layoutPrincipale->addWidget(impl->btn6);
-    impl->layoutPrincipale->addWidget(impl->m_progressBar);
-
-    impl->widget ->setLayout(impl->layoutPrincipale);
+    // resize(800,300);
 
     // Sezione Signals e slots buttons
-    connect(impl->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
-    connect(impl->btn2,&QPushButton::clicked,this,[this](){
+    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
+    connect(m_ui->btn2,&QPushButton::clicked,this,[this](){
         slotB();
         slotC();
     });
-    connect(impl->btn3,&QPushButton::clicked,this,[this](){
+    connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
         impl->incrementCounter();
         qDebug() <<"Btn 3 -> Counter: " << impl->getCounter();
         if(impl->getCounter() > my_project::N){
@@ -108,9 +65,12 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
         }
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
-    connect(impl->btn4,&QPushButton::clicked,this,&QWidget::close);
-    connect(impl->btn5,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
-    connect(impl->btn6,&MyBtn::clicked,this,&FinestraPrincipale::createDialog);
+    connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
+    connect(m_ui->btn5,&MyBtn::clicked,this,&FinestraPrincipale::createDialog);
+    //connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
+
+
+    connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
 
     // Sezione Thread
     impl->thread = new MyThread();
@@ -128,7 +88,7 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
         if(v==0){
             qDebug() << "ProgressBar -- ThreadId: " <<QThread::currentThreadId();
         }
-        impl->m_progressBar->setValue(v);
+        m_ui->m_progressBar->setValue(v);
     });
 
     /* Gestione chiusura finestra:
@@ -146,11 +106,11 @@ FinestraPrincipale::FinestraPrincipale(QMainWindow *parent) : QMainWindow(parent
     });
 
     /* Gestione chiusura thread per riutilizzo:
-        - quando il worker finisce, il thread viene 
-            chiuso, ma puo' ripartire con start
+        quando il worker finisce, il thread viene chiuso, 
+        ma puo' ripartire con start
     */
     connect(impl->worker,&Worker::finished,impl->thread,&MyThread::quit);
-}
+} // costruttore
 
 // Distruttore
 FinestraPrincipale::~FinestraPrincipale() {
@@ -158,7 +118,7 @@ FinestraPrincipale::~FinestraPrincipale() {
     emit cleanup();
 }
 
-//Funzioni
+// Slots
 void FinestraPrincipale::slotA(){
     QMessageBox::information(this,"Msg1","Btn1 - Slot A");
 }
@@ -182,6 +142,7 @@ void FinestraPrincipale::slotE(){
     impl->thread->start();
 }
 
+// Gestione chiusura finestra mentre worker e' in esecuzione
 void FinestraPrincipale::closeEvent(QCloseEvent *event){
     if (impl->thread && impl->thread->isRunning()){
         qDebug() << "Thread not finished";
@@ -193,48 +154,25 @@ void FinestraPrincipale::closeEvent(QCloseEvent *event){
 }
 
 void FinestraPrincipale::createDialog() {
-     // Finestra dialog secondaria:
-    // finestra -> layout -> label + spinbox + btn conferma + 
 
-    MyDialog finestraDialog(this);
+    QDialog * dialog = new QDialog(this);
+    m_dialog = std::make_unique<Ui::Dialog>();
+    m_dialog->setupUi(dialog);
 
-    finestraDialog.setWindowTitle("Counter Dialog");
-    finestraDialog.resize(500,100);
+    // capture values -> sono variabili che la funzione sa gia' 
+    // che verranno inclusi e utilizzati all'interno della funzione
 
-    QVBoxLayout * layoutDialog = new QVBoxLayout(&finestraDialog);
-    QLabel * labelDialog = new QLabel("Inserire valore counter",&finestraDialog);
-    QSpinBox * spinboxDialog = new QSpinBox(&finestraDialog);
-    spinboxDialog->setRange(0,100);
-    
-    MyBtn * resetCounterBtn = new MyBtn("Reset Counter",&finestraDialog);
-    MyBtn * setCounterBtn = new MyBtn("Confirm",&finestraDialog);
-
-    layoutDialog->addWidget(labelDialog);
-    layoutDialog->addWidget(spinboxDialog);
-    layoutDialog->addWidget(resetCounterBtn);
-    layoutDialog->addWidget(setCounterBtn);
-    finestraDialog.setLayout(layoutDialog);
-
-    auto setCounterValue = [this, &spinboxDialog, &finestraDialog](int value){
-        switch(value) {
-        case 1:
-            this->impl->setCounter(spinboxDialog->value());
-            finestraDialog.close();
-            break;
-        case 0:
-            this->impl->setCounter(0);
-            QMessageBox::information(this,"Reset Counter","Variabile impostata a zero");
-            finestraDialog.close();
-            break;
-        }
+    auto setCounterValue = [this,dialog](int value){
+        this->impl->setCounter(value);
+        dialog->close();
     };
-    connect(setCounterBtn,&MyBtn::clicked,this, [&setCounterValue](){
-        setCounterValue(1);
+
+    connect(m_dialog->dialogConfirmBtn, &QDialogButtonBox::clicked, this, [setCounterValue,this](){
+        setCounterValue(m_dialog->spinBox->value());
     });
-    connect(resetCounterBtn,&MyBtn::clicked,this,[&setCounterValue](){
-        setCounterValue(0);
-    });
+
     qDebug() << "--- QDialog ---";
-    finestraDialog.exec(); // 
+    dialog->exec(); // 
     qDebug() << "Uscita Finestra dialog";
 }
+

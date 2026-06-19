@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON) # per .ui file
 
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
@@ -21,7 +21,10 @@ add_executable(QtProject1
     MyBtn.cpp
     MyThread.h
     MyDialog.h
-    MyDialog.cpp)
+    MyDialog.cpp    
+    FinestraPrincipale.ui
+    DialogCounter.ui
+    )
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
