@@ -8,7 +8,8 @@
 
 #include "ui_FinestraPrincipale.h"
 #include "ui_DialogCounter.h"
-// #include "ui_DialogString.h"
+#include "ui_DialogString.h"
+#include "ui_DialogCheckbox.h"
 
 #include "MyBtn.h"
 #include "MyThread.h"
@@ -59,6 +60,7 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     });
     connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
         impl->incrementCounter();
+        this->m_ui->counterValueLabel->setText(QString::number(this->impl->getCounter()));
         qDebug() <<"Btn 3 -> Counter: " << impl->getCounter();
         if(impl->getCounter() > my_project::N){
             alertLimiteCounter();
@@ -66,9 +68,9 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
     connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
-    connect(m_ui->btn5,&MyBtn::clicked,this,&FinestraPrincipale::createDialog);
-    //connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
-
+    connect(m_ui->btn5,&MyBtn::clicked,this,&FinestraPrincipale::createDialogCounter);
+    connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
+    connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
 
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
 
@@ -153,26 +155,94 @@ void FinestraPrincipale::closeEvent(QCloseEvent *event){
     QMainWindow::closeEvent(event);
 }
 
-void FinestraPrincipale::createDialog() {
+void FinestraPrincipale::createDialogCounter() {
 
-    QDialog * dialog = new QDialog(this);
-    m_dialog = std::make_unique<Ui::Dialog>();
-    m_dialog->setupUi(dialog);
+    QDialog dialog (this);
+    
+    m_dialogCounter = std::make_unique<Ui::DCounter>();
+    m_dialogCounter->setupUi(&dialog);
 
     // capture values -> sono variabili che la funzione sa gia' 
     // che verranno inclusi e utilizzati all'interno della funzione
 
-    auto setCounterValue = [this,dialog](int value){
+    auto setCounterValue = [this,&dialog](int value){
         this->impl->setCounter(value);
-        dialog->close();
+        this->m_ui->counterValueLabel->setText(QString::number(this->impl->getCounter()));
+        dialog.accept();
     };
 
-    connect(m_dialog->dialogConfirmBtn, &QDialogButtonBox::clicked, this, [setCounterValue,this](){
-        setCounterValue(m_dialog->spinBox->value());
+    connect(m_dialogCounter->dialogConfirmBtn, &QDialogButtonBox::clicked, this, [setCounterValue,this](){
+        setCounterValue(m_dialogCounter->spinBox->value());
     });
 
     qDebug() << "--- QDialog ---";
-    dialog->exec(); // 
+    dialog.exec(); // 
     qDebug() << "Uscita Finestra dialog";
 }
 
+void FinestraPrincipale::createDialogString(){
+    
+    QDialog dialog (this);
+    
+    m_dialogString = std::make_unique<Ui::DString>();
+    m_dialogString->setupUi(&dialog);
+
+    auto getComboBoxSelection = [this](QString text) {
+        this->m_ui->labelString->setText(text);
+    };
+
+    QString choice = m_dialogString->comboBox->currentText();
+    connect(m_dialogString->buttonBox,&QDialogButtonBox::clicked,this,[this,getComboBoxSelection](){
+        getComboBoxSelection(this->m_dialogString->comboBox->currentText());
+    });
+    qDebug() << "--- QDialog ---";
+    dialog.exec(); // 
+    qDebug() << "Uscita Finestra dialog";
+}
+
+void FinestraPrincipale::createDialogCheckbox(){
+    QDialog dialog(this);
+
+    m_dialogCheckbox = std::make_unique<Ui::DCheckbox>();
+    m_dialogCheckbox->setupUi(&dialog);
+
+    auto getCheckboxInfo = [this] () {
+
+        // Riempimento stringa inserita nella label
+        this->m_ui->lineEditValueLabel->setText(this->m_dialogCheckbox->lineEdit->text());
+    
+        // Valutazione checkbox spuntate
+        QString * checkboxesString = new QString();
+
+        if(this->m_dialogCheckbox->checkBox_A->isChecked()){
+            checkboxesString->append("- Opzione A -");
+        }
+        if(this->m_dialogCheckbox->checkBox_B->isChecked()){
+            checkboxesString->append("- Opzione B -");
+        }
+        if(this->m_dialogCheckbox->checkBox_C->isChecked()){
+            checkboxesString->append("- Opzione C -");
+        }
+
+        this->m_ui->checkboxesValueLabel->setText(* checkboxesString);
+
+        // Valutazione radioButton scelto
+        if(this->m_dialogCheckbox->radioButton_1->isChecked()){
+            this->m_ui->radioButtonValueLabel->setText("Radio Button 1");
+        }
+
+        if(this->m_dialogCheckbox->radioButton_2->isChecked()){
+            this->m_ui->radioButtonValueLabel->setText("Radio Button 2");
+
+        }
+
+    };
+
+    connect(m_dialogCheckbox->buttonBox, &QDialogButtonBox::clicked, this, [this,getCheckboxInfo](){
+        getCheckboxInfo();
+    });
+
+    qDebug() << "--- QDialog ---";
+    dialog.exec(); // 
+    qDebug() << "Uscita Finestra dialog";
+}

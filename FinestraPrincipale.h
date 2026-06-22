@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <memory>
+#include <QLabel>
+#include <QString>
 
 namespace my_project {
     static constexpr int N = 20;
@@ -10,8 +12,9 @@ namespace my_project {
 
 namespace Ui{
     class MainWindow;
-    class Dialog;
-    class DialogString;
+    class DCounter;
+    class DString;
+    class DCheckbox;
 }
 
 class FinestraPrincipale : public QMainWindow {
@@ -36,8 +39,9 @@ class FinestraPrincipale : public QMainWindow {
         void slotC();
         void slotD();
         void slotE();
-        void createDialog();
-        // void createDialogString();
+        void createDialogCounter();
+        void createDialogString();
+        void createDialogCheckbox();
         
     private:
         // forward declaration
@@ -47,6 +51,7 @@ class FinestraPrincipale : public QMainWindow {
         std::unique_ptr<FinestraPrincipaleImpl> impl;
 
         std::unique_ptr<Ui::MainWindow> m_ui; // "MainWindow" deriva dal nome di QMainWindow dentro QtDesigner
-        std::unique_ptr<Ui::Dialog> m_dialog;
-        //std::unique_ptr<Ui::DialogString> m_dialogString;
+        std::unique_ptr<Ui::DCounter> m_dialogCounter;
+        std::unique_ptr<Ui::DString> m_dialogString;
+        std::unique_ptr<Ui::DCheckbox> m_dialogCheckbox;
     };

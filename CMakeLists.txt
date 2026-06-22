@@ -22,9 +22,11 @@ add_executable(QtProject1
     MyThread.h
     MyDialog.h
     MyDialog.cpp    
+
     FinestraPrincipale.ui
     DialogCounter.ui
-    )
+    DialogString.ui
+    DialogCheckbox.ui)
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)

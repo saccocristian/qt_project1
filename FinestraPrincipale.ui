@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1029</width>
+    <width>978</width>
     <height>322</height>
    </rect>
   </property>
@@ -23,17 +23,7 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="2">
-       <widget class="QToolButton" name="toolButton">
-        <property name="text">
-         <string>Toggle btn1</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
+      <item row="5" column="1">
        <widget class="QToolButton" name="toolButton_6">
         <property name="text">
          <string>Toggle btn6</string>
@@ -43,69 +33,21 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="3" column="0">
        <widget class="QPushButton" name="btn4">
         <property name="text">
          <string>btn4 - multithreading simulation</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="3">
-       <widget class="QLabel" name="label">
+      <item row="4" column="0">
+       <widget class="QPushButton" name="btn5">
         <property name="text">
-         <string>Testo inserito:</string>
+         <string>btn5 - dialog counter</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QToolButton" name="toolButton_2">
-        <property name="text">
-         <string>Toggle btn2</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QToolButton" name="toolButton_5">
-        <property name="text">
-         <string>Toggle btn5</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="4">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="btn1">
-        <property name="text">
-         <string>btn1 - slot A</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="btn2">
-        <property name="text">
-         <string>btn2 - slot B + C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>btn6 - Fill Label</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
+      <item row="2" column="1">
        <widget class="QToolButton" name="toolButton_3">
         <property name="text">
          <string>Toggle btn3</string>
@@ -115,7 +57,31 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+      <item row="2" column="0">
+       <widget class="QPushButton" name="btn3">
+        <property name="text">
+         <string>btn3 - incremento counter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="btn1">
+        <property name="text">
+         <string>btn1 - slot A</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QToolButton" name="toolButton_5">
+        <property name="text">
+         <string>Toggle btn5</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
        <widget class="QToolButton" name="toolButton_4">
         <property name="text">
          <string>Toggle btn4</string>
@@ -125,61 +91,126 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="btn3">
+      <item row="0" column="1">
+       <widget class="QToolButton" name="toolButton">
         <property name="text">
-         <string>btn3 - incremento counter</string>
+         <string>Toggle btn1</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="btn5">
+      <item row="2" column="2">
+       <widget class="QLabel" name="counterLabel">
         <property name="text">
-         <string>btn5 - apertura dialog edit counter</string>
+         <string>Counter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="btn6">
+        <property name="text">
+         <string>btn6 - dialog Label</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="lineEditLabel">
+        <property name="text">
+         <string>lineEdit:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="btn2">
+        <property name="text">
+         <string>btn2 - slot B + C</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="choiceLabel">
+        <property name="text">
+         <string>Choice:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QToolButton" name="toolButton_2">
+        <property name="text">
+         <string>Toggle btn2</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="checkboxesLabel">
+        <property name="text">
+         <string>CheckBoxes:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="radiobuttonLabel">
+        <property name="text">
+         <string>RadioButton:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLabel" name="lineEditValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="3">
+       <widget class="QLabel" name="checkboxesValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLabel" name="radioButtonValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLabel" name="labelString">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
       <item row="2" column="3">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QLabel" name="counterValueLabel">
+        <property name="text">
+         <string/>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
-      <item row="5" column="5">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="6" column="0" rowspan="3">
+       <widget class="QPushButton" name="btn7">
+        <property name="text">
+         <string>btn7 - dialog checkbox</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QToolButton" name="toolButton_7">
+        <property name="text">
+         <string>Toggle btn7</string>
         </property>
-       </spacer>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -197,7 +228,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1029</width>
+     <width>978</width>
      <height>21</height>
     </rect>
    </property>
@@ -239,12 +270,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>49</y>
+     <x>227</x>
+     <y>44</y>
     </hint>
     <hint type="destinationlabel">
-     <x>427</x>
-     <y>58</y>
+     <x>176</x>
+     <y>53</y>
     </hint>
    </hints>
   </connection>
@@ -255,12 +286,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>88</y>
+     <x>227</x>
+     <y>78</y>
     </hint>
     <hint type="destinationlabel">
-     <x>373</x>
-     <y>86</y>
+     <x>122</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -271,12 +302,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>130</y>
+     <x>227</x>
+     <y>115</y>
     </hint>
     <hint type="destinationlabel">
-     <x>372</x>
-     <y>130</y>
+     <x>121</x>
+     <y>115</y>
     </hint>
    </hints>
   </connection>
@@ -287,12 +318,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>175</y>
+     <x>227</x>
+     <y>155</y>
     </hint>
     <hint type="destinationlabel">
-     <x>375</x>
-     <y>170</y>
+     <x>124</x>
+     <y>150</y>
     </hint>
    </hints>
   </connection>
@@ -303,28 +334,44 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>215</y>
+     <x>227</x>
+     <y>190</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>215</y>
+     <x>131</x>
+     <y>190</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>toolButton_6</sender>
    <signal>toggled(bool)</signal>
-   <receiver>pushButton</receiver>
+   <receiver>btn6</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>472</x>
-     <y>260</y>
+     <x>221</x>
+     <y>230</y>
     </hint>
     <hint type="destinationlabel">
-     <x>417</x>
-     <y>265</y>
+     <x>166</x>
+     <y>235</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_7</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btn7</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>264</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>267</y>
     </hint>
    </hints>
   </connection>
