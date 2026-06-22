@@ -37,13 +37,6 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="4">
-       <widget class="QLabel" name="radioButtonValueLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="5" column="1">
        <widget class="QToolButton" name="toolButton_6">
         <property name="text">
@@ -51,6 +44,13 @@
         </property>
         <property name="checkable">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="4">
+       <widget class="QLabel" name="radioButtonValueLabel">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -64,17 +64,17 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="4">
-       <widget class="QLabel" name="lineEditValueLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="7" column="3">
        <widget class="QLabel" name="checkboxesLabel">
         <property name="text">
          <string>CheckBoxes:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLabel" name="lineEditValueLabel">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -205,6 +205,16 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+       </layout>
+      </item>
       <item row="4" column="0">
        <widget class="QPushButton" name="btn5">
         <property name="text">
@@ -219,15 +229,12 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>3</number>
+      <item row="10" column="0">
+       <widget class="QPushButton" name="btn9">
+        <property name="text">
+         <string>btn9 - Multithreading 3 workers</string>
         </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-       </layout>
+       </widget>
       </item>
      </layout>
     </item>
