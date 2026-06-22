@@ -239,6 +239,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="pictureLabelMainWindow">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="closeBtn">
       <property name="text">
        <string>Close</string>
