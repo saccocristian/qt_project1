@@ -5,15 +5,18 @@
 #include <QThread>
 #include <QPointer>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QImage>
 
 #include "ui_FinestraPrincipale.h"
 #include "ui_DialogCounter.h"
 #include "ui_DialogString.h"
 #include "ui_DialogCheckbox.h"
 
-#include "MyBtn.h"
 #include "MyThread.h"
 #include "Worker.h"
+
+#include "MyBtn.h"
 #include "MyDialog.h"
 
 // Struttura file: impl - costruttore - distruttore - funzioni
@@ -68,9 +71,12 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
     connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
-    connect(m_ui->btn5,&MyBtn::clicked,this,&FinestraPrincipale::createDialogCounter);
+    connect(m_ui->btn5,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCounter);
     connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
     connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
+    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::createDialogPicture);
+
+    connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
 
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
 
@@ -245,4 +251,16 @@ void FinestraPrincipale::createDialogCheckbox(){
     qDebug() << "--- QDialog ---";
     dialog.exec(); // 
     qDebug() << "Uscita Finestra dialog";
+}
+
+void FinestraPrincipale::createDialogPicture() {
+
+    // Apro finestra per selezione file
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
+
+    QPointer <QLabel> pictureLabel = new QLabel();
+    QPixmap pixmap(fileName);
+    pictureLabel->setPixmap(pixmap);
+    pictureLabel->show();
 }
