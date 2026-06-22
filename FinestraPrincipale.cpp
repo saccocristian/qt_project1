@@ -24,7 +24,6 @@
 class FinestraPrincipale::FinestraPrincipaleImpl {
 
     public:
-
         int getCounter() const {
             return m_counter;
         }
@@ -39,51 +38,66 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
 
+        QPointer<MyThread> counterThread1;
+        QPointer<MyThread> counterThread2;
+        QPointer<MyThread> counterThread3;
+
+        QPointer<Worker> counterWorker1;
+        QPointer<Worker> counterWorker2;
+        QPointer<Worker> counterWorker3;
+
     private:
         int m_counter{0};
+        int m_threadCounter1{0};
+        int m_threadCounter2{0};
+        int m_threadCounter3{0};
 };
 
 // Costruttore
 FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), impl(std::make_unique<FinestraPrincipaleImpl>()) {
-    /*  Sezione GUI - Struttura Main window:
-        - https://doc.qt.io/qt-6/qtwidgets-mainwindows-menus-example.html
-        - MainWindow -> CentralWidget -> QVBoxLayout -> btns + progress bar
-    */
+
     m_ui = std::make_unique<Ui::MainWindow>();
     m_ui->setupUi(this);
 
     setWindowTitle("Qt Test Dashboard");
     // resize(800,300);
 
-    // Sezione Signals e slots buttons
-    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
-    connect(m_ui->btn2,&QPushButton::clicked,this,[this](){
-        slotB();
-        slotC();
-    });
-    connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
+    auto btn2_lambda = [this]() {
+        this->slotB();
+        this->slotC();
+    };
+
+    auto btn3_lambda = [this](){
         impl->incrementCounter();
         this->m_ui->counterValueLabel->setText(QString::number(this->impl->getCounter()));
         qDebug() <<"Btn 3 -> Counter: " << impl->getCounter();
         if(impl->getCounter() > my_project::N){
             alertLimiteCounter();
         }
+    };
+
+    // 1. Connections
+    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
+    connect(m_ui->btn2,&QPushButton::clicked,this,[this,btn2_lambda](){
+        btn2_lambda();
+    });
+    connect(m_ui->btn3,&QPushButton::clicked,this,[this,btn3_lambda](){
+        btn3_lambda();
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
     connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
     connect(m_ui->btn5,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCounter);
     connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
     connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
-    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::createDialogPicture);
+    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::showPicture);
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
-
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
 
     // Sezione Thread
     impl->thread = new MyThread();
     impl->thread->setObjectName("MyThreadName");
-
+    
     impl->worker = new Worker();
     impl->worker->moveToThread(impl->thread);
 
@@ -118,6 +132,46 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
         ma puo' ripartire con start
     */
     connect(impl->worker,&Worker::finished,impl->thread,&MyThread::quit);
+
+    // Gestione 3 workers e 3 threads
+    // il terzo thread parte al termine di uno dei due worker
+    
+    impl->counterThread1 = new MyThread();
+    impl->counterThread2 = new MyThread();
+    impl->counterThread3 = new MyThread();
+
+    impl->counterWorker1 = new Worker();
+    impl->counterWorker2 = new Worker();
+    impl->counterWorker3 = new Worker();
+
+    impl->counterWorker1->setObjectName("Thread 1");
+    impl->counterWorker2->setObjectName("Thread 2");
+    impl->counterWorker3->setObjectName("Thread 3");
+
+    impl->counterWorker1->moveToThread(impl->counterThread1);
+    impl->counterWorker2->moveToThread(impl->counterThread2);
+    impl->counterWorker3->moveToThread(impl->counterThread3);
+
+    connect(this->m_ui->btn9,&QPushButton::clicked,this,[this](){
+        if((this->impl->counterThread1 && this->impl->counterThread1->isRunning()) ||
+            (this->impl->counterThread2 && this->impl->counterThread2->isRunning())){
+                qDebug() << "Threads gia' in esecuzione.";
+            };
+        this->impl->counterThread1->start();
+        this->impl->counterThread2->start();
+    });
+    connect(impl->counterThread1,&QThread::started,impl->counterWorker1,[this](){
+        this->impl->counterWorker1->evaluate(10);
+    });
+
+    connect(impl->counterThread2,&QThread::started,impl->counterWorker2,[this](){
+        this->impl->counterWorker2->evaluate(20);
+    });
+
+
+    
+
+
 } // costruttore
 
 // Distruttore
@@ -253,7 +307,7 @@ void FinestraPrincipale::createDialogCheckbox(){
     qDebug() << "Uscita Finestra dialog";
 }
 
-void FinestraPrincipale::createDialogPicture() {
+void FinestraPrincipale::showPicture() {
 
     // Apro finestra per selezione file
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -268,3 +322,4 @@ void FinestraPrincipale::createDialogPicture() {
     pictureLabel->show();
 
 }
+

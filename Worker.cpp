@@ -15,3 +15,20 @@ void Worker::doWork(){
 Worker::~Worker(){
     qDebug() << "~ QObject : Worker";
 }
+
+// sleepTime -> in ms
+void Worker::evaluate(int sleepTime){
+    if(m_isStarted) {
+        qDebug() << "Worker gia' in esecuzione";
+        return;
+    }
+    m_isStarted = true;
+    qDebug() << this->objectName() + " -- ThreadId: " << QThread::currentThreadId();
+
+    for(int i=0; i<=100;++i){
+        qDebug() << this->objectName() +  " -> Value: " + i;
+        QThread::msleep(sleepTime);
+    }
+    m_isStarted = false;
+    emit finished(this->objectName() + " -> Finished");
+}
