@@ -42,6 +42,7 @@ class FinestraPrincipale : public QMainWindow {
         void createDialogCounter();
         void createDialogString();
         void createDialogCheckbox();
+        void createDialogPicture();
         
     private:
         // forward declaration
