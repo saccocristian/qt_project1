@@ -261,6 +261,10 @@ void FinestraPrincipale::createDialogPicture() {
 
     QPointer <QLabel> pictureLabel = new QLabel();
     QPixmap pixmap(fileName);
+    pixmap.scaled(100,100,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    this->m_ui->pictureLabelMainWindow->setPixmap(pixmap);
+
     pictureLabel->setPixmap(pixmap);
     pictureLabel->show();
+
 }
