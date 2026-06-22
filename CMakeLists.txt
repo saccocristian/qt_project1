@@ -5,12 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Abilita il build system automatico di Qt per file di interfaccia, risorse e macro
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON) # per .ui file
 
-# Cerca i pacchetti Qt (Homebrew viene rilevato automaticamente se hai impostato il PATH)
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 add_executable(QtProject1 
@@ -22,10 +20,13 @@ add_executable(QtProject1
     MyBtn.h
     MyBtn.cpp
     MyThread.h
-    FooClass.h
-    FooClassImpl.cpp
     MyDialog.h
-    MyDialog.cpp)
+    MyDialog.cpp    
+
+    FinestraPrincipale.ui
+    DialogCounter.ui
+    DialogString.ui
+    DialogCheckbox.ui)
 
 # Collega le librerie di Qt al tuo eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
