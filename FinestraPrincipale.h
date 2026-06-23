@@ -32,6 +32,7 @@ class FinestraPrincipale : public QMainWindow {
         void cleanup();
         void setCounter();
         void resetCounter(int value);
+        void retry();
         
     private slots:
         void slotA();

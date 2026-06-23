@@ -25,10 +25,15 @@ void Worker::evaluate(int sleepTime){
     m_isStarted = true;
     qDebug() << this->objectName() + " -- ThreadId: " << QThread::currentThreadId();
 
-    for(int i=0; i<=100;++i){
-        qDebug() << this->objectName() +  " -> Value: " + i;
+    for(int i=0; i<=100;i+=2){
+        qDebug() << this->objectName() +  " -> Value: " << i;
         QThread::msleep(sleepTime);
     }
     m_isStarted = false;
+    m_isFinished = true;
     emit finished(this->objectName() + " -> Finished");
+}
+
+bool Worker::isFinished(){
+    return m_isFinished;
 }
