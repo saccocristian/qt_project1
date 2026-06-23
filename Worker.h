@@ -7,6 +7,7 @@ class Worker : public QObject {
     
 public:
     explicit Worker(QObject *parent = nullptr);
+    bool isFinished();
     ~Worker();
 
 public slots:
@@ -18,4 +19,5 @@ signals:
 
 private:
     bool m_isStarted = false;
+    bool m_isFinished = false;
 };
