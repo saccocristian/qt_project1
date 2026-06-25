@@ -32,6 +32,7 @@ class FinestraPrincipale : public QMainWindow {
         void cleanup();
         void setCounter();
         void resetCounter(int value);
+        void retry();
         
     private slots:
         void slotA();
@@ -42,7 +43,7 @@ class FinestraPrincipale : public QMainWindow {
         void createDialogCounter();
         void createDialogString();
         void createDialogCheckbox();
-        void createDialogPicture();
+        void showPicture();
         
     private:
         // forward declaration

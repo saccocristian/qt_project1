@@ -7,12 +7,17 @@ class Worker : public QObject {
     
 public:
     explicit Worker(QObject *parent = nullptr);
+    bool isFinished();
     ~Worker();
 
 public slots:
     void doWork();       // il lavoro pesante (il loop con sleep)
-
+    void evaluate(int sleepTime);
 signals:
     void progress(int percent);
     void finished(const QString &result);
+
+private:
+    bool m_isStarted = false;
+    bool m_isFinished = false;
 };

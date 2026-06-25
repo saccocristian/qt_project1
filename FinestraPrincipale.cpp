@@ -24,7 +24,6 @@
 class FinestraPrincipale::FinestraPrincipaleImpl {
 
     public:
-
         int getCounter() const {
             return m_counter;
         }
@@ -34,56 +33,71 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         void incrementCounter(){
             m_counter +=1;
         }
-
+        QPixmap immagineOriginale;
         // Thread logics
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
 
+        QPointer<MyThread> counterThread1;
+        QPointer<MyThread> counterThread2;
+        QPointer<MyThread> counterThread3;
+
+        QPointer<Worker> counterWorker1;
+        QPointer<Worker> counterWorker2;
+        QPointer<Worker> counterWorker3;
+
     private:
         int m_counter{0};
+        int m_threadCounter1{0};
+        int m_threadCounter2{0};
+        int m_threadCounter3{0};
 };
 
 // Costruttore
 FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), impl(std::make_unique<FinestraPrincipaleImpl>()) {
-    /*  Sezione GUI - Struttura Main window:
-        - https://doc.qt.io/qt-6/qtwidgets-mainwindows-menus-example.html
-        - MainWindow -> CentralWidget -> QVBoxLayout -> btns + progress bar
-    */
+
     m_ui = std::make_unique<Ui::MainWindow>();
     m_ui->setupUi(this);
 
     setWindowTitle("Qt Test Dashboard");
     // resize(800,300);
 
-    // Sezione Signals e slots buttons
-    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
-    connect(m_ui->btn2,&QPushButton::clicked,this,[this](){
-        slotB();
-        slotC();
-    });
-    connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
+    auto btn2_lambda = [this]() {
+        this->slotB();
+        this->slotC();
+    };
+
+    auto btn3_lambda = [this](){
         impl->incrementCounter();
         this->m_ui->counterValueLabel->setText(QString::number(this->impl->getCounter()));
         qDebug() <<"Btn 3 -> Counter: " << impl->getCounter();
         if(impl->getCounter() > my_project::N){
             alertLimiteCounter();
         }
+    };
+
+    // 1. Connections
+    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
+    connect(m_ui->btn2,&QPushButton::clicked,this,[this,btn2_lambda](){
+        btn2_lambda();
+    });
+    connect(m_ui->btn3,&QPushButton::clicked,this,[this,btn3_lambda](){
+        btn3_lambda();
     });
     connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
     connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
     connect(m_ui->btn5,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCounter);
     connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
     connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
-    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::createDialogPicture);
+    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::showPicture);
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
-
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
 
     // Sezione Thread
     impl->thread = new MyThread();
     impl->thread->setObjectName("MyThreadName");
-
+    
     impl->worker = new Worker();
     impl->worker->moveToThread(impl->thread);
 
@@ -118,6 +132,111 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
         ma puo' ripartire con start
     */
     connect(impl->worker,&Worker::finished,impl->thread,&MyThread::quit);
+
+    // Gestione 3 workers e 3 threads
+    // il terzo thread parte al termine di uno dei due worker
+    
+    impl->counterThread1 = new MyThread();
+    impl->counterThread2 = new MyThread();
+    impl->counterThread3 = new MyThread();
+
+    impl->counterWorker1 = new Worker();
+    impl->counterWorker2 = new Worker();
+    impl->counterWorker3 = new Worker();
+
+    impl->counterWorker1->setObjectName("Thread 1");
+    impl->counterWorker2->setObjectName("Thread 2");
+    impl->counterWorker3->setObjectName("Thread 3");
+
+    impl->counterWorker1->moveToThread(impl->counterThread1);
+    impl->counterWorker2->moveToThread(impl->counterThread2);
+    impl->counterWorker3->moveToThread(impl->counterThread3);
+
+    // premo il btn, partono i 2 thread; 
+
+    auto counterThreadStart = [this]() {
+        if((impl->counterThread1 && impl->counterThread1->isRunning()) ||
+            (impl->counterThread2 && impl->counterThread2->isRunning())){
+                qDebug() << "Threads gia' in esecuzione.";
+            }
+        impl->counterThread1->start();
+        impl->counterThread2->start();
+    };
+
+    connect(m_ui->btn9,&QPushButton::clicked,this,[this, counterThreadStart](){
+        counterThreadStart();
+    });
+
+    connect(impl->counterThread1,&QThread::started,impl->counterWorker1,[this](){
+        impl->counterWorker1->evaluate(5);
+    });
+
+    connect(impl->counterThread2,&QThread::started,impl->counterWorker2,[this](){
+        impl->counterWorker2->evaluate(20);
+    });
+
+    auto checkCounterThread3 = [this](){
+        if(impl->counterThread3->isRunning()){
+            qDebug() <<"Counter Thread 3 gia' partito.";
+            return;
+        }
+        impl->counterThread3->start();
+    };
+    
+    connect(impl->counterWorker1,&Worker::finished,this,[this, checkCounterThread3](){
+        checkCounterThread3();
+    });
+
+    connect(impl->counterWorker2,&Worker::finished,this,[this, checkCounterThread3](){
+        checkCounterThread3();
+    });
+    connect(impl->counterWorker1,&Worker::finished,this,[](){
+        qDebug() << "Thread Counter 1 finito";
+    });
+        connect(impl->counterWorker2,&Worker::finished,this,[](){
+        qDebug() << "Thread Counter 2 finito";
+    });
+
+    connect(impl->counterThread3,&QThread::started,this,[this](){
+        impl->counterWorker3->evaluate(5);
+    });
+
+    auto threadInit = [this](){
+        if(!impl->counterWorker1->isFinished() || 
+            !impl->counterWorker2->isFinished() ||
+            !impl->counterWorker3->isFinished()){
+                qDebug() << "Operazioni non terminate";
+                emit retry();
+                return;
+            }
+        impl->counterThread1->quit();
+        impl->counterThread2->quit();
+        impl->counterThread3->quit();
+        qDebug() << "Threads inizializzati";
+    };
+
+    // Quando il counterThread3 finisce, faccio quit sui thread
+    connect(impl->counterWorker3,&Worker::finished,this,[this, threadInit](){
+        qDebug() << "Thread Counter 3 finito";
+        threadInit();
+    });
+
+    connect(this,&FinestraPrincipale::retry,this, [this,threadInit](){
+        threadInit();
+    });
+
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread1,&MyThread::quit);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread1,&MyThread::deleteLater);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker1,&Worker::deleteLater);
+
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread2,&MyThread::quit);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread2,&MyThread::deleteLater);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker2,&Worker::deleteLater);
+
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::quit);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::deleteLater);
+    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker3,&Worker::deleteLater);
+
 } // costruttore
 
 // Distruttore
@@ -220,26 +339,25 @@ void FinestraPrincipale::createDialogCheckbox(){
         // Valutazione checkbox spuntate
         QString * checkboxesString = new QString();
 
-        if(this->m_dialogCheckbox->checkBox_A->isChecked()){
+        if(m_dialogCheckbox->checkBox_A->isChecked()){
             checkboxesString->append("- Opzione A -");
         }
-        if(this->m_dialogCheckbox->checkBox_B->isChecked()){
+        if(m_dialogCheckbox->checkBox_B->isChecked()){
             checkboxesString->append("- Opzione B -");
         }
-        if(this->m_dialogCheckbox->checkBox_C->isChecked()){
+        if(m_dialogCheckbox->checkBox_C->isChecked()){
             checkboxesString->append("- Opzione C -");
         }
 
-        this->m_ui->checkboxesValueLabel->setText(* checkboxesString);
+        m_ui->checkboxesValueLabel->setText(* checkboxesString);
 
         // Valutazione radioButton scelto
-        if(this->m_dialogCheckbox->radioButton_1->isChecked()){
-            this->m_ui->radioButtonValueLabel->setText("Radio Button 1");
+        if(m_dialogCheckbox->radioButton_1->isChecked()){
+            m_ui->radioButtonValueLabel->setText("Radio Button 1");
         }
 
-        if(this->m_dialogCheckbox->radioButton_2->isChecked()){
-            this->m_ui->radioButtonValueLabel->setText("Radio Button 2");
-
+        if(m_dialogCheckbox->radioButton_2->isChecked()){
+            m_ui->radioButtonValueLabel->setText("Radio Button 2");
         }
 
     };
@@ -253,18 +371,27 @@ void FinestraPrincipale::createDialogCheckbox(){
     qDebug() << "Uscita Finestra dialog";
 }
 
-void FinestraPrincipale::createDialogPicture() {
-
-    // Apro finestra per selezione file
+void FinestraPrincipale::showPicture() {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
 
-    QPointer <QLabel> pictureLabel = new QLabel();
-    QPixmap pixmap(fileName);
-    pixmap.scaled(100,100,Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    this->m_ui->pictureLabelMainWindow->setPixmap(pixmap);
+    if (fileName.isEmpty()) {
+        return; // L'utente ha annullato la selezione
+    }
 
-    pictureLabel->setPixmap(pixmap);
-    pictureLabel->show();
+    // Salva la pixmap originale nell'impl
+    impl->immagineOriginale = QPixmap(fileName);
 
+    // Diamo il permesso alla label di espandere/restringere il suo contenuto visivo
+    m_ui->pictureLabelMainWindow->setScaledContents(true);
+
+    // Forziamo un primo ridimensionamento basato sulla larghezza attuale
+    if (!impl->immagineOriginale.isNull()) {
+        int larghezzaFinestra = this->width();
+        
+        // Scaliamo mantenendo le proporzioni
+        QPixmap scalata = impl->immagineOriginale.scaledToWidth(larghezzaFinestra, Qt::SmoothTransformation);
+        m_ui->pictureLabelMainWindow->setPixmap(scalata);
+    }
 }
+
