@@ -21,7 +21,11 @@ add_executable(QtProject1
     MyBtn.cpp
     MyThread.h
     MyDialog.h
-    MyDialog.cpp    
+    MyDialog.cpp
+    BaseClass.h
+    BaseClass.cpp
+    DerivedClass.h
+    DerivedClass.cpp
 
     FinestraPrincipale.ui
     DialogCounter.ui

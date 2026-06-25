@@ -46,6 +46,8 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         QPointer<Worker> counterWorker2;
         QPointer<Worker> counterWorker3;
 
+        QPointer<DerivedClass> derivedClassObj;
+
     private:
         int m_counter{0};
         int m_threadCounter1{0};
@@ -90,6 +92,22 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
     connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
     connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::showPicture);
+
+    impl->derivedClassObj = new DerivedClass();
+
+    connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup();
+    });
+    connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
+    });
+    
+    connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup("Hello World");
+    });
+    connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopupNonVirtual();
+    });
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
@@ -326,7 +344,7 @@ void FinestraPrincipale::createDialogString(){
 }
 
 void FinestraPrincipale::createDialogCheckbox(){
-    QDialog dialog(this);
+    MyDialog dialog(this);
 
     m_dialogCheckbox = std::make_unique<Ui::DCheckbox>();
     m_dialogCheckbox->setupUi(&dialog);
