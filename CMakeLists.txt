@@ -13,20 +13,30 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 add_executable(QtProject1 
     main.cpp
-    FinestraPrincipale.h
-    FinestraPrincipale.cpp
+    MainWindow.h
+    MainWindow.cpp
     Worker.h
     Worker.cpp
     MyBtn.h
     MyBtn.cpp
     MyThread.h
     MyDialog.h
-    MyDialog.cpp    
+    MyDialog.cpp
+    BaseClass.h
+    BaseClass.cpp
+    DerivedClass.h
+    DerivedClass.cpp
+    Shape.h
+    Shape.cpp
+    Rectangle.h
+    Rectangle.cpp
+    Triangle.h
+    Triangle.cpp
 
-    FinestraPrincipale.ui
+    MainWindow.ui
     DialogCounter.ui
     DialogString.ui
     DialogCheckbox.ui)
 
-# Collega le librerie di Qt al tuo eseguibile
+# Collega le librerie di Qt all' eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
