@@ -5,10 +5,10 @@ Shape::~Shape(){
     qDebug() << "Shape::~Shape()";
 }
 
-int Shape::getNumeroAngoli(){
-    return m_numeroAngoli;
+int Shape::get_angles_number() const {
+    return m_angles_number;
 }
 
-int Shape::getNumeroLati(){
-    return m_numeroLati;
+int Shape::get_sides_number() const {
+    return m_sides_number;
 }

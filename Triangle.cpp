@@ -3,16 +3,18 @@
 
 Triangle::Triangle(){
     qDebug() << "Triangle::Triangle()";
-    setNumeroAngoli();
-    setNumeroLati();
+    set_angles_number();
+    set_sides_number();
 }
+
 Triangle::~Triangle(){
     qDebug() << "Triangle::~Triangle()";
 }
-void Triangle::setNumeroAngoli(){
-    m_numeroAngoli = 3;
+
+void Triangle::set_angles_number(){
+    m_angles_number = 3;
 }
 
-void Triangle::setNumeroLati(){
-    m_numeroLati = 3;
+void Triangle::set_sides_number(){
+    m_sides_number = 3;
 }

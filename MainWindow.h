@@ -18,12 +18,12 @@ namespace Ui{
     class DCheckbox;
 }
 
-class FinestraPrincipale : public QMainWindow {
+class MainWindow : public QMainWindow {
     Q_OBJECT // per usare moc (meta-object compiler)
 
     public:
-        explicit FinestraPrincipale(QWidget *parent = nullptr);
-        ~FinestraPrincipale();
+        explicit MainWindow(QWidget *parent = nullptr);
+        ~MainWindow();
 
     protected:
         void closeEvent(QCloseEvent *event) override;
@@ -48,10 +48,10 @@ class FinestraPrincipale : public QMainWindow {
         
     private:
         // forward declaration
-        class FinestraPrincipaleImpl;
+        class MainWindowImpl;
         
         // il ptr e' un tipo completo, ovvero la dimensione di un ptr e' nota e fissa
-        std::unique_ptr<FinestraPrincipaleImpl> impl;
+        std::unique_ptr<MainWindowImpl> impl;
 
         std::unique_ptr<Ui::MainWindow> m_ui; // "MainWindow" deriva dal nome di QMainWindow dentro QtDesigner
         std::unique_ptr<Ui::DCounter> m_dialogCounter;

@@ -1,18 +1,17 @@
 #pragma once
 
 class Shape {
-
-    protected:
-        int m_numeroAngoli;
-        int m_numeroLati;
-
     public:
     virtual ~Shape();
 
-    virtual void setNumeroAngoli() = 0;
-    int getNumeroAngoli();
+    virtual void set_angles_number() = 0;
+    int get_angles_number() const;
 
-    virtual void setNumeroLati() = 0;
-    int getNumeroLati();
+    virtual void set_sides_number() = 0;
+    int get_sides_number() const;
+
+    protected:
+        int m_angles_number;
+        int m_sides_number;
 
 };
