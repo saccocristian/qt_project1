@@ -2,11 +2,13 @@
 
 #include "BaseClass.h"
 
-class DerivedClass : public BaseClass {
-    Q_OBJECT
+// con final interrompo ereditarieta' 
+class DerivedClass final : public BaseClass {
+    // Q_OBJECT
     public:
         // item 33
-        DerivedClass();
+        // explicit DerivedClass(QObject * parent=nullptr);
+        ~DerivedClass();
         using BaseClass::stampaPopup;
 
         void stampaPopup(QString s) override;

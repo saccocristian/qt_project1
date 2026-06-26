@@ -46,7 +46,7 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
         QPointer<Worker> counterWorker2;
         QPointer<Worker> counterWorker3;
 
-        QPointer<DerivedClass> derivedClassObj;
+        std::unique_ptr<BaseClass> derivedClassObj;
 
     private:
         int m_counter{0};
@@ -93,21 +93,21 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
     connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::showPicture);
 
-    impl->derivedClassObj = new DerivedClass();
+    impl->derivedClassObj = std::make_unique<DerivedClass>();
 
-    connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
-        this->impl->derivedClassObj->stampaPopup();
-    });
-    connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
-        this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
-    });
+    // connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
+    //     this->impl->derivedClassObj->stampaPopup();
+    // });
+    // connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
+    //     this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
+    // });
     
-    connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
-        this->impl->derivedClassObj->stampaPopup("Hello World");
-    });
-    connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
-        this->impl->derivedClassObj->stampaPopupNonVirtual();
-    });
+    // connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
+    //     this->impl->derivedClassObj->stampaPopup("Hello World");
+    // });
+    // connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
+    //     this->impl->derivedClassObj->stampaPopupNonVirtual();
+    // });
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);

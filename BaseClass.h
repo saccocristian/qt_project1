@@ -4,12 +4,15 @@
 #include <QString>
 #include <QDebug>
 
-class BaseClass : public QObject {
-    Q_OBJECT
+// class BaseClass : public QObject {
+class BaseClass {
+    // Q_OBJECT
     
     public:
-    BaseClass();
+    // explicit BaseClass(QObject * parent=nullptr);
+    
 
+    virtual ~BaseClass();
     // item 32: quando si eredita, va ereditato tutto, altrimenti si trovano altre soluzioni
 
     public slots:
