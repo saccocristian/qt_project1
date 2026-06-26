@@ -1,4 +1,4 @@
-#include "FinestraPrincipale.h"
+#include "MainWindow.h"
 
 #include <QDebug>
 #include <QWidget>
@@ -8,7 +8,7 @@
 #include <QFileDialog>
 #include <QImage>
 
-#include "ui_FinestraPrincipale.h"
+#include "ui_MainWindow.h"
 #include "ui_DialogCounter.h"
 #include "ui_DialogString.h"
 #include "ui_DialogCheckbox.h"
@@ -24,7 +24,7 @@
 
 // Struttura file: impl - costruttore - distruttore - funzioni
 
-class FinestraPrincipale::FinestraPrincipaleImpl {
+class MainWindow::MainWindowImpl {
 
     public:
         int getCounter() const {
@@ -60,7 +60,7 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
 };
 
 // Costruttore
-FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), impl(std::make_unique<FinestraPrincipaleImpl>()) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_unique<MainWindowImpl>()) {
 
     m_ui = std::make_unique<Ui::MainWindow>();
     m_ui->setupUi(this);
@@ -83,19 +83,19 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     };
 
     // 1. Connections
-    connect(m_ui->btn1,&QPushButton::clicked,this,&FinestraPrincipale::slotA);
+    connect(m_ui->btn1,&QPushButton::clicked,this,&MainWindow::slotA);
     connect(m_ui->btn2,&QPushButton::clicked,this,[this,btn2_lambda](){
         btn2_lambda();
     });
     connect(m_ui->btn3,&QPushButton::clicked,this,[this,btn3_lambda](){
         btn3_lambda();
     });
-    connect(this,&FinestraPrincipale::alertLimiteCounter,this,&FinestraPrincipale::slotD);
-    connect(m_ui->btn4,&QPushButton::clicked,this,&FinestraPrincipale::slotE);
-    connect(m_ui->btn5,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCounter);
-    connect(m_ui->btn6,&QPushButton::clicked,this,&FinestraPrincipale::createDialogString);
-    connect(m_ui->btn7,&QPushButton::clicked,this,&FinestraPrincipale::createDialogCheckbox);
-    connect(m_ui->btn8,&QPushButton::clicked,this,&FinestraPrincipale::showPicture);
+    connect(this,&MainWindow::alertLimiteCounter,this,&MainWindow::slotD);
+    connect(m_ui->btn4,&QPushButton::clicked,this,&MainWindow::slotE);
+    connect(m_ui->btn5,&QPushButton::clicked,this,&MainWindow::createDialogCounter);
+    connect(m_ui->btn6,&QPushButton::clicked,this,&MainWindow::createDialogString);
+    connect(m_ui->btn7,&QPushButton::clicked,this,&MainWindow::createDialogCheckbox);
+    connect(m_ui->btn8,&QPushButton::clicked,this,&MainWindow::showPicture);
 
     impl->derivedClassObj = std::make_unique<DerivedClass>();
 
@@ -154,14 +154,14 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
         - Quando invoco distruttore finestra, emetto cleanup()
         - cleanup si occupa di gestire cancellazione thread e worker
     */
-    connect(this,&FinestraPrincipale::cleanup,impl->thread,&MyThread::quit);
-    connect(this,&FinestraPrincipale::cleanup,impl->thread,&MyThread::deleteLater);
-    connect(this,&FinestraPrincipale::cleanup,impl->worker,&Worker::deleteLater);
-    connect(this,&FinestraPrincipale::cleanup,this,[](){
+    connect(this,&MainWindow::cleanup,impl->thread,&MyThread::quit);
+    connect(this,&MainWindow::cleanup,impl->thread,&MyThread::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->worker,&Worker::deleteLater);
+    connect(this,&MainWindow::cleanup,this,[](){
         qDebug() << "------------------------------------";
-        qDebug() << "FinestraPrincipale::cleanup -> thread::quit";
-        qDebug() << "FinestraPrincipale::cleanup -> thread::deleteLater";
-        qDebug() << "FinestraPrincipale::cleanup -> worker::deleteLater";
+        qDebug() << "MainWindow::cleanup -> thread::quit";
+        qDebug() << "MainWindow::cleanup -> thread::deleteLater";
+        qDebug() << "MainWindow::cleanup -> worker::deleteLater";
     });
 
     /* Gestione chiusura thread per riutilizzo:
@@ -258,46 +258,46 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
         threadInit();
     });
 
-    connect(this,&FinestraPrincipale::retry,this, [this,threadInit](){
+    connect(this,&MainWindow::retry,this, [this,threadInit](){
         threadInit();
     });
 
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread1,&MyThread::quit);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread1,&MyThread::deleteLater);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker1,&Worker::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterThread1,&MyThread::quit);
+    connect(this,&MainWindow::cleanup,impl->counterThread1,&MyThread::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterWorker1,&Worker::deleteLater);
 
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread2,&MyThread::quit);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread2,&MyThread::deleteLater);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker2,&Worker::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterThread2,&MyThread::quit);
+    connect(this,&MainWindow::cleanup,impl->counterThread2,&MyThread::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterWorker2,&Worker::deleteLater);
 
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::quit);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::deleteLater);
-    connect(this,&FinestraPrincipale::cleanup,impl->counterWorker3,&Worker::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::quit);
+    connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::deleteLater);
+    connect(this,&MainWindow::cleanup,impl->counterWorker3,&Worker::deleteLater);
 
 
 
 } // costruttore
 
 // Distruttore
-FinestraPrincipale::~FinestraPrincipale() {
-    qDebug() << "~ QWidget : FinestraPrincipale";
+MainWindow::~MainWindow() {
+    qDebug() << "~ QWidget : MainWindow";
     emit cleanup();
 }
 
 // Slots
-void FinestraPrincipale::slotA(){
+void MainWindow::slotA(){
     QMessageBox::information(this,"Msg1","Btn1 - Slot A");
 }
-void FinestraPrincipale::slotB(){
+void MainWindow::slotB(){
     QMessageBox::information(this,"Msg2","btn2 - Slot B");
 }
-void FinestraPrincipale::slotC(){
+void MainWindow::slotC(){
     QMessageBox::information(this,"Msg3","Btn2 - Slot C");
 }
-void FinestraPrincipale::slotD(){
+void MainWindow::slotD(){
     QMessageBox::warning(this,"Alert counter","Errore: counter raggiunto");
 }
-void FinestraPrincipale::slotE(){
+void MainWindow::slotE(){
     qDebug() << "------------------------------------";
     qDebug() << "Slot E -- ThreadId:" << QThread::currentThreadId();
 
@@ -309,7 +309,7 @@ void FinestraPrincipale::slotE(){
 }
 
 // Gestione chiusura finestra mentre worker e' in esecuzione
-void FinestraPrincipale::closeEvent(QCloseEvent *event){
+void MainWindow::closeEvent(QCloseEvent *event){
     if (impl->thread && impl->thread->isRunning()){
         qDebug() << "Thread not finished";
         QMessageBox::critical(this,"Error","Thread is running, please wait ...");
@@ -319,7 +319,7 @@ void FinestraPrincipale::closeEvent(QCloseEvent *event){
     QMainWindow::closeEvent(event);
 }
 
-void FinestraPrincipale::createDialogCounter() {
+void MainWindow::createDialogCounter() {
 
     QDialog dialog (this);
     
@@ -344,7 +344,7 @@ void FinestraPrincipale::createDialogCounter() {
     qDebug() << "Uscita Finestra dialog";
 }
 
-void FinestraPrincipale::createDialogString(){
+void MainWindow::createDialogString(){
     
     QDialog dialog (this);
     
@@ -364,7 +364,7 @@ void FinestraPrincipale::createDialogString(){
     qDebug() << "Uscita Finestra dialog";
 }
 
-void FinestraPrincipale::createDialogCheckbox(){
+void MainWindow::createDialogCheckbox(){
     MyDialog dialog(this);
 
     m_dialogCheckbox = std::make_unique<Ui::DCheckbox>();
@@ -410,7 +410,7 @@ void FinestraPrincipale::createDialogCheckbox(){
     qDebug() << "Uscita Finestra dialog";
 }
 
-void FinestraPrincipale::showPicture() {
+void MainWindow::showPicture() {
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
 

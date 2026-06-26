@@ -1,10 +1,10 @@
 #include "Shape.h"
 
-class Rectangle : public Shape {
+class Rectangle final : public Shape {
     public:
-        Rectangle();
-        ~ Rectangle();
+        explicit Rectangle();
+        ~Rectangle();
     private:
-        void setNumeroAngoli() override;
-        void setNumeroLati() override;
+        void set_angles_number() override;
+        void set_sides_number() override;
 };

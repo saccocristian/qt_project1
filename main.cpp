@@ -1,4 +1,4 @@
-#include "FinestraPrincipale.h"
+#include "MainWindow.h"
 #include <QApplication>
 #include <QThread>
 #include <QDebug>
@@ -15,9 +15,9 @@ int main(int argc, char *argv[]){
     
     QApplication app (argc,argv);
     
-    FinestraPrincipale finestra;
+    MainWindow window;
     //finestra.setAttribute(Qt::WA_DeleteOnClose);
-    finestra.show();
+    window.show();
 
     // main event loop non ancora partito
     qDebug() << "--- Main Event Loop: Inizio ---";

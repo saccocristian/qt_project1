@@ -13,8 +13,8 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
 add_executable(QtProject1 
     main.cpp
-    FinestraPrincipale.h
-    FinestraPrincipale.cpp
+    MainWindow.h
+    MainWindow.cpp
     Worker.h
     Worker.cpp
     MyBtn.h
@@ -33,10 +33,10 @@ add_executable(QtProject1
     Triangle.h
     Triangle.cpp
 
-    FinestraPrincipale.ui
+    MainWindow.ui
     DialogCounter.ui
     DialogString.ui
     DialogCheckbox.ui)
 
-# Collega le librerie di Qt al tuo eseguibile
+# Collega le librerie di Qt all' eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
