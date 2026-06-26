@@ -1,7 +1,11 @@
 #include "BaseClass.h"
 
-BaseClass::BaseClass(){
+// BaseClass::BaseClass(QObject * parent) : QObject(parent){
 
+// }
+
+BaseClass::~BaseClass(){
+    qDebug() << "Distruttore Base Class";
 }
 void BaseClass::stampaPopup(){
     qDebug() << "BaseClass::stampaPopup() --- (virtual)";
