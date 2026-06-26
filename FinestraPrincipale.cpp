@@ -16,6 +16,9 @@
 #include "MyThread.h"
 #include "Worker.h"
 
+#include "Rectangle.h"
+#include "Triangle.h"
+
 #include "MyBtn.h"
 #include "MyDialog.h"
 
@@ -48,6 +51,7 @@ class FinestraPrincipale::FinestraPrincipaleImpl {
 
         std::unique_ptr<BaseClass> derivedClassObj;
 
+        std::unique_ptr<Shape> shapeObj;
     private:
         int m_counter{0};
         int m_threadCounter1{0};
@@ -108,6 +112,21 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     // connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
     //     this->impl->derivedClassObj->stampaPopupNonVirtual();
     // });
+
+    connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
+        // Rectangle - Triangle
+        QString s = this->m_ui->shapeComboBox->currentText();
+        if(s == "Rectangle"){
+                this->impl->shapeObj = std::make_unique<Rectangle>();
+        } else if (s == "Triangle") {
+                this->impl->shapeObj = std::make_unique<Triangle>();
+        }
+        qDebug() << "--- --- ---";
+    });
+
+    connect(m_ui->shapeCancelBtn,&QPushButton::clicked,this,[this]() {
+        
+    });
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
     connect(m_ui->actionQuit,&QAction::triggered,this,&QWidget::close);
@@ -254,6 +273,8 @@ FinestraPrincipale::FinestraPrincipale(QWidget *parent) : QMainWindow(parent), i
     connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::quit);
     connect(this,&FinestraPrincipale::cleanup,impl->counterThread3,&MyThread::deleteLater);
     connect(this,&FinestraPrincipale::cleanup,impl->counterWorker3,&Worker::deleteLater);
+
+
 
 } // costruttore
 

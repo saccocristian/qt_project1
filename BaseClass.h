@@ -15,7 +15,7 @@ class BaseClass {
     virtual ~BaseClass();
     // item 32: quando si eredita, va ereditato tutto, altrimenti si trovano altre soluzioni
 
-    public slots:
+    public:
     // item 33: non nascondere inherited names
     // -> soluzione: "using" per dare alla classe Derived tutti i metodi con lo stesso nome
     virtual void stampaPopup();

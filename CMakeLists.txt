@@ -26,6 +26,12 @@ add_executable(QtProject1
     BaseClass.cpp
     DerivedClass.h
     DerivedClass.cpp
+    Shape.h
+    Shape.cpp
+    Rectangle.h
+    Rectangle.cpp
+    Triangle.h
+    Triangle.cpp
 
     FinestraPrincipale.ui
     DialogCounter.ui
