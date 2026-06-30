@@ -141,6 +141,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         Rectangle* rectDynamic = dynamic_cast<Rectangle*>(this->impl->shapeObj.get());
         Triangle * triangleDynamic = dynamic_cast<Triangle*>(this->impl->shapeObj.get());
 
+        Rectangle * rectangleStatic = static_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangleStatic = static_cast<Triangle*>(this->impl->shapeObj.get());
+
+        // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
         if (rectDynamic != nullptr) {
             qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
         } else {
@@ -151,6 +155,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
             qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
         } else {
             qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
+        }
+
+        // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
+        // che non appartiene alla classe a cui pensa di puntare da' errore!
+        if (rectangleStatic != nullptr) {
+            qDebug() << "rectangleStatic e' un ptr valido a un oggetto Rectangle.";
+        } else {
+            qDebug() << "rectangleStatic NON e' un ptr valido a un oggetto Rectangle.";
+        }
+
+        if (triangleStatic != nullptr) {
+            qDebug() << "triangleStatic e' un ptr valido a un oggetto Triangle.";
+        } else {
+            qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
         }
 
         qDebug() << "--- --- ---";
