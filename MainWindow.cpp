@@ -81,7 +81,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
             alertLimiteCounter();
         }
     };
+    // ptr to function
+    void ( * ptrFunction)() = MainWindow::printFunctionExample;
 
+    connect(m_ui->ptrFunctionBtn,&QPushButton::clicked,this,[this,ptrFunction](){
+        ptrFunction();
+    });
+
+    CalculatorSingleton * calculator = CalculatorSingleton::getInstance();
+    calculator->printState();
+
+    CalculatorSingleton * calculator_copy = CalculatorSingleton::getInstance();
+    
+    
     // 1. Connections
     connect(m_ui->btn1,&QPushButton::clicked,this,&MainWindow::slotA);
     connect(m_ui->btn2,&QPushButton::clicked,this,[this,btn2_lambda](){
@@ -99,19 +111,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
 
     impl->derivedClassObj = std::make_unique<DerivedClass>();
 
-    // connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup();
-    // });
-    // connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
-    // });
+    connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup();
+    });
+    connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
+    });
     
-    // connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup("Hello World");
-    // });
-    // connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopupNonVirtual();
-    // });
+    connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup("Hello World");
+    });
+    connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopupNonVirtual();
+    });
 
     connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
         // Rectangle - Triangle
@@ -124,8 +136,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         qDebug() << "--- --- ---";
     });
 
-    connect(m_ui->shapeCancelBtn,&QPushButton::clicked,this,[this]() {
-        
+    auto calculator_fn = [](CalculatorSingleton * calculator){
+        calculator ->increaseCounter();
+        calculator ->printCounter();
+    };
+
+    void (*ptr_calculator_fn)(CalculatorSingleton *) = calculator_fn;
+
+    connect(m_ui->calcValueBtn,&QPushButton::clicked,this,[calculator,ptr_calculator_fn](){
+        ptr_calculator_fn(calculator);
+    });
+
+    connect(m_ui->calcCopyValueBtn,&QPushButton::clicked,this,[calculator_copy,ptr_calculator_fn](){
+        ptr_calculator_fn(calculator_copy);
     });
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
@@ -273,8 +296,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::quit);
     connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::deleteLater);
     connect(this,&MainWindow::cleanup,impl->counterWorker3,&Worker::deleteLater);
-
-
 
 } // costruttore
 
@@ -434,3 +455,6 @@ void MainWindow::showPicture() {
     }
 }
 
+void MainWindow::printFunctionExample(){
+    qDebug() << "Usage of ptr to function";
+}

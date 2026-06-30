@@ -32,7 +32,9 @@ add_executable(QtProject1
     Rectangle.cpp
     Triangle.h
     Triangle.cpp
-
+    Calculator.h
+    Calculator.cpp
+    
     MainWindow.ui
     DialogCounter.ui
     DialogString.ui
