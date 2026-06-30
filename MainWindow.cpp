@@ -126,13 +126,33 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     });
 
     connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
+
         // Rectangle - Triangle
+        // static_cast e dynamic_cast
+
         QString s = this->m_ui->shapeComboBox->currentText();
         if(s == "Rectangle"){
                 this->impl->shapeObj = std::make_unique<Rectangle>();
         } else if (s == "Triangle") {
                 this->impl->shapeObj = std::make_unique<Triangle>();
         }
+
+        // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
+        Rectangle* rectDynamic = dynamic_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangleDynamic = dynamic_cast<Triangle*>(this->impl->shapeObj.get());
+
+        if (rectDynamic != nullptr) {
+            qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
+        } else {
+            qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
+        }
+
+        if (triangleDynamic != nullptr) {
+            qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
+        } else {
+            qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
+        }
+
         qDebug() << "--- --- ---";
     });
 
