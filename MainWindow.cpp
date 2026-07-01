@@ -89,10 +89,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     });
 
     CalculatorSingleton * calculator = CalculatorSingleton::getInstance();
-    calculator->printState();
 
     CalculatorSingleton * calculator_copy = CalculatorSingleton::getInstance();
-    
     
     // 1. Connections
     connect(m_ui->btn1,&QPushButton::clicked,this,&MainWindow::slotA);
@@ -138,20 +136,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         }
 
         // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
-        Rectangle* rectDynamic = dynamic_cast<Rectangle*>(this->impl->shapeObj.get());
-        Triangle * triangleDynamic = dynamic_cast<Triangle*>(this->impl->shapeObj.get());
+        Rectangle* rectangle_dynamic = dynamic_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangle_dynamic = dynamic_cast<Triangle*>(this->impl->shapeObj.get());
 
-        Rectangle * rectangleStatic = static_cast<Rectangle*>(this->impl->shapeObj.get());
-        Triangle * triangleStatic = static_cast<Triangle*>(this->impl->shapeObj.get());
+        Rectangle * rectangle_static = static_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangle_static = static_cast<Triangle*>(this->impl->shapeObj.get());
 
         // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
-        if (rectDynamic != nullptr) {
+        if (rectangle_dynamic != nullptr) {
             qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
         } else {
             qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
         }
 
-        if (triangleDynamic != nullptr) {
+        if (triangle_dynamic != nullptr) {
             qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
         } else {
             qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
@@ -159,13 +157,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
 
         // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
         // che non appartiene alla classe a cui pensa di puntare da' errore!
-        if (rectangleStatic != nullptr) {
+        if (rectangle_static != nullptr) {
             qDebug() << "rectangleStatic e' un ptr valido a un oggetto Rectangle.";
         } else {
             qDebug() << "rectangleStatic NON e' un ptr valido a un oggetto Rectangle.";
         }
 
-        if (triangleStatic != nullptr) {
+        if (triangle_static != nullptr) {
             qDebug() << "triangleStatic e' un ptr valido a un oggetto Triangle.";
         } else {
             qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
