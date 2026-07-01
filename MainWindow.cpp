@@ -473,28 +473,30 @@ void MainWindow::createDialogCheckbox(){
     qDebug() << "Uscita Finestra dialog";
 }
 
+// Funzione per gestire immagini e import dati; commentato al momento in quanto non e' necessario e darebbe fastidio nell'implementazione
 void MainWindow::showPicture() {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
+    // QString fileName = QFileDialog::getOpenFileName(this,
+    //     tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
 
-    if (fileName.isEmpty()) {
-        return; // L'utente ha annullato la selezione
-    }
+    // if (fileName.isEmpty()) {
+    //     return; // L'utente ha annullato la selezione
+    // }
 
-    // Salva la pixmap originale nell'impl
-    impl->immagineOriginale = QPixmap(fileName);
+    // // Salva la pixmap originale nell'impl
+    // impl->immagineOriginale = QPixmap(fileName);
 
-    // Diamo il permesso alla label di espandere/restringere il suo contenuto visivo
-    m_ui->pictureLabelMainWindow->setScaledContents(true);
+    // // Diamo il permesso alla label di espandere/restringere il suo contenuto visivo
+    // m_ui->pictureLabelMainWindow->setScaledContents(true);
 
-    // Forziamo un primo ridimensionamento basato sulla larghezza attuale
-    if (!impl->immagineOriginale.isNull()) {
-        int larghezzaFinestra = this->width();
+    // // Forziamo un primo ridimensionamento basato sulla larghezza attuale
+    // if (!impl->immagineOriginale.isNull()) {
+    //     int larghezzaFinestra = this->width();
         
-        // Scaliamo mantenendo le proporzioni
-        QPixmap scalata = impl->immagineOriginale.scaledToWidth(larghezzaFinestra, Qt::SmoothTransformation);
-        m_ui->pictureLabelMainWindow->setPixmap(scalata);
-    }
+    //     // Scaliamo mantenendo le proporzioni
+    //     QPixmap scalata = impl->immagineOriginale.scaledToWidth(larghezzaFinestra, Qt::SmoothTransformation);
+    //     m_ui->pictureLabelMainWindow->setPixmap(scalata);
+    //     m_ui->
+    // }
 }
 
 void MainWindow::printFunctionExample(){

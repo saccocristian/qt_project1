@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1126</width>
-    <height>792</height>
+    <width>1240</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,17 +23,10 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="1">
-       <widget class="QPushButton" name="btn1">
+      <item row="13" column="1" colspan="2">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>btn1 - slot A</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="4">
-       <widget class="QLabel" name="radiobuttonLabel">
-        <property name="text">
-         <string>RadioButton:</string>
+         <string>Select shape type (OK to confirm, Cancel to reset)</string>
         </property>
        </widget>
       </item>
@@ -44,24 +37,30 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="5">
-       <widget class="QLabel" name="counterValueLabel">
+      <item row="11" column="1">
+       <widget class="QPushButton" name="btn9">
         <property name="text">
-         <string/>
+         <string>btn9 - Multithreading 3 workers</string>
         </property>
        </widget>
       </item>
-      <item row="13" column="4">
-       <widget class="QPushButton" name="shapeOkBtn">
-        <property name="text">
-         <string>Ok</string>
+      <item row="19" column="1">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-      <item row="7" column="5">
-       <widget class="QLabel" name="lineEditValueLabel">
+      <item row="15" column="1" colspan="3">
+       <widget class="QPushButton" name="ptrFunctionBtn">
         <property name="text">
-         <string/>
+         <string>PtrToFunctionBtn</string>
         </property>
        </widget>
       </item>
@@ -75,51 +74,48 @@
         </property>
        </widget>
       </item>
-      <item row="17" column="1" colspan="3">
-       <widget class="QPushButton" name="calcCopyValueBtn">
+      <item row="14" column="2" colspan="2">
+       <widget class="QLabel" name="selectedShapeLabel">
         <property name="text">
-         <string>Calculator Copy Increase Counter</string>
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QToolButton" name="toolButton">
+      <item row="6" column="5">
+       <widget class="QLabel" name="labelString">
         <property name="text">
-         <string>Toggle btn1</string>
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="5">
+       <widget class="QLabel" name="radioButtonValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QToolButton" name="toolButton_3">
+        <property name="text">
+         <string>Toggle btn3</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QToolButton" name="toolButton_2">
+      <item row="16" column="1" colspan="3">
+       <widget class="QPushButton" name="calcValueBtn">
         <property name="text">
-         <string>Toggle btn2</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
+         <string>Calculator Increase Counter</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="btn2">
+      <item row="12" column="4">
+       <widget class="QPushButton" name="btn12">
         <property name="text">
-         <string>btn2 - slot B + C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QPushButton" name="btn9">
-        <property name="text">
-         <string>btn9 - Multithreading 3 workers</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QPushButton" name="btn8">
-        <property name="text">
-         <string>btn8 - Show Selected Picture</string>
+         <string>stampaPopup(String s)</string>
         </property>
        </widget>
       </item>
@@ -133,10 +129,213 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="btn3">
+        <property name="text">
+         <string>btn3 - Increase Counter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="5">
+       <widget class="QProgressBar" name="m_progressBar">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="btn4">
+        <property name="text">
+         <string>btn4 - Multithreading Simulation</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QToolButton" name="toolButton_2">
+        <property name="text">
+         <string>Toggle btn2</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="toolButton">
+        <property name="text">
+         <string>Toggle btn1</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+       </layout>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLabel" name="choiceLabel">
+        <property name="text">
+         <string>Choice:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Selected Shape:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="btn2">
+        <property name="text">
+         <string>btn2 - slot B + C</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="5">
+       <widget class="QLabel" name="lineEditValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QLabel" name="counterValueLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="12" column="1" colspan="2">
+       <widget class="QPushButton" name="btn10">
+        <property name="text">
+         <string>stampaPopup()</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="4">
+       <widget class="QLabel" name="checkboxesLabel">
+        <property name="text">
+         <string>CheckBoxes:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLabel" name="counterLabel">
+        <property name="text">
+         <string>Counter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="btn6">
+        <property name="text">
+         <string>btn6 - Dialog Label</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QToolButton" name="toolButton_7">
+        <property name="text">
+         <string>Toggle btn7</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="5">
+       <widget class="QPushButton" name="btn13">
+        <property name="text">
+         <string>stampaPopupNonVirtual()</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="4">
+       <widget class="QLabel" name="radiobuttonLabel">
+        <property name="text">
+         <string>RadioButton:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="btn1">
+        <property name="text">
+         <string>btn1 - slot A</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="3">
+       <widget class="QPushButton" name="btn11">
+        <property name="text">
+         <string>stampaPopup(int x)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QToolButton" name="toolButton_4">
+        <property name="text">
+         <string>Toggle btn4</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="7" column="4">
        <widget class="QLabel" name="lineEditLabel">
         <property name="text">
          <string>lineEdit:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QPushButton" name="btn8">
+        <property name="text">
+         <string>btn8 - Show Selected Picture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1" colspan="3">
+       <widget class="QPushButton" name="calcCopyValueBtn">
+        <property name="text">
+         <string>Calculator Copy Increase Counter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="btn5">
+        <property name="text">
+         <string>btn5 - Dialog Counter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1" rowspan="3">
+       <widget class="QPushButton" name="btn7">
+        <property name="text">
+         <string>btn7 - Dialog Checkbox</string>
         </property>
        </widget>
       </item>
@@ -157,199 +356,6 @@
         </item>
        </widget>
       </item>
-      <item row="6" column="4">
-       <widget class="QLabel" name="choiceLabel">
-        <property name="text">
-         <string>Choice:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1" colspan="2">
-       <widget class="QPushButton" name="btn10">
-        <property name="text">
-         <string>stampaPopup()</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>3</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-       </layout>
-      </item>
-      <item row="6" column="5">
-       <widget class="QLabel" name="labelString">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Selected Shape:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="1" colspan="3">
-       <widget class="QPushButton" name="calcValueBtn">
-        <property name="text">
-         <string>Calculator Increase Counter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QPushButton" name="btn5">
-        <property name="text">
-         <string>btn5 - Dialog Counter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Select shape type (OK to confirm, Cancel to reset)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="4">
-       <widget class="QLabel" name="counterLabel">
-        <property name="text">
-         <string>Counter:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="5">
-       <widget class="QPushButton" name="btn13">
-        <property name="text">
-         <string>stampaPopupNonVirtual()</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="5">
-       <widget class="QLabel" name="radioButtonValueLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="3">
-       <widget class="QPushButton" name="btn11">
-        <property name="text">
-         <string>stampaPopup(int x)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="2" colspan="2">
-       <widget class="QLabel" name="selectedShapeLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QToolButton" name="toolButton_4">
-        <property name="text">
-         <string>Toggle btn4</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="18" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="btn3">
-        <property name="text">
-         <string>btn3 - Increase Counter</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="4">
-       <widget class="QPushButton" name="btn12">
-        <property name="text">
-         <string>stampaPopup(String s)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="btn4">
-        <property name="text">
-         <string>btn4 - Multithreading Simulation</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1" rowspan="3">
-       <widget class="QPushButton" name="btn7">
-        <property name="text">
-         <string>btn7 - Dialog Checkbox</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="4">
-       <widget class="QLabel" name="checkboxesLabel">
-        <property name="text">
-         <string>CheckBoxes:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="2">
-       <widget class="QToolButton" name="toolButton_7">
-        <property name="text">
-         <string>Toggle btn7</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="15" column="1" colspan="3">
-       <widget class="QPushButton" name="ptrFunctionBtn">
-        <property name="text">
-         <string>PtrToFunctionBtn</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QToolButton" name="toolButton_3">
-        <property name="text">
-         <string>Toggle btn3</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QPushButton" name="btn6">
-        <property name="text">
-         <string>btn6 - Dialog Label</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="5">
-       <widget class="QProgressBar" name="m_progressBar">
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
       <item row="13" column="5">
        <widget class="QPushButton" name="shapeCancelBtn">
         <property name="text">
@@ -357,10 +363,10 @@
         </property>
        </widget>
       </item>
-      <item row="19" column="1">
-       <widget class="QPushButton" name="pushButton_2">
+      <item row="13" column="4">
+       <widget class="QPushButton" name="shapeOkBtn">
         <property name="text">
-         <string>PushButton</string>
+         <string>Ok</string>
         </property>
        </widget>
       </item>
@@ -387,7 +393,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1126</width>
+     <width>1240</width>
      <height>21</height>
     </rect>
    </property>
