@@ -13,8 +13,6 @@ CalculatorSingleton * CalculatorSingleton::getInstance(){
     return m_calculator_instance;
 }
 
-
-
 void CalculatorSingleton::increaseCounter(){
     ++this->m_counter;
 }

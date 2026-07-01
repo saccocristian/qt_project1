@@ -13,14 +13,14 @@
 #include "ui_DialogString.h"
 #include "ui_DialogCheckbox.h"
 
-#include "MyThread.h"
-#include "Worker.h"
+#include "threading/MyThread.h"
+#include "threading/Worker.h"
 
-#include "Rectangle.h"
-#include "Triangle.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Triangle.h"
 
-#include "MyBtn.h"
-#include "MyDialog.h"
+#include "gui/MyBtn.h"
+#include "gui/MyDialog.h"
 
 // Struttura file: impl - costruttore - distruttore - funzioni
 
@@ -145,16 +145,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
         if (rectangle_dynamic != nullptr) {
             qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
+            qDebug() << "Rectangle::get_angles_number() -> " << rectangle_dynamic->get_angles_number();
         } else {
             qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
         }
 
         if (triangle_dynamic != nullptr) {
             qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
+            qDebug() << "Triangle::get_angles_number() -> " << triangle_dynamic->get_angles_number();
         } else {
             qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
         }
-
+        qDebug() << "-- static_cast: Comportamento anomalo a seguire, a puro scopo didattico";
         // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
         // che non appartiene alla classe a cui pensa di puntare da' errore!
         if (rectangle_static != nullptr) {
@@ -164,7 +166,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         }
 
         if (triangle_static != nullptr) {
-            qDebug() << "triangleStatic e' un ptr valido a un oggetto Triangle.";
+            qDebug() << "triangle_static e' un ptr valido a un oggetto Triangle.";
         } else {
             qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
         }
@@ -263,14 +265,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         counterThreadStart();
     });
 
+    // quando partono i due thread eseguo evaluate per entrambi, i quali emettono segnale finished() alla fine
     connect(impl->counterThread1,&QThread::started,impl->counterWorker1,[this](){
-        impl->counterWorker1->evaluate(5);
+        impl->counterWorker1->evaluate(1000);
     });
 
     connect(impl->counterThread2,&QThread::started,impl->counterWorker2,[this](){
-        impl->counterWorker2->evaluate(20);
+        impl->counterWorker2->evaluate(2000);
     });
 
+    // non appena uno dei due finisce, viene lanciato checkCounterThread3 per far partire il terzo thread
     auto checkCounterThread3 = [this](){
         if(impl->counterThread3->isRunning()){
             qDebug() <<"Counter Thread 3 gia' partito.";
@@ -286,6 +290,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     connect(impl->counterWorker2,&Worker::finished,this,[this, checkCounterThread3](){
         checkCounterThread3();
     });
+
     connect(impl->counterWorker1,&Worker::finished,this,[](){
         qDebug() << "Thread Counter 1 finito";
     });
@@ -293,14 +298,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         qDebug() << "Thread Counter 2 finito";
     });
 
+
     connect(impl->counterThread3,&QThread::started,this,[this](){
-        impl->counterWorker3->evaluate(5);
+        impl->counterWorker3->evaluate(2000);
     });
 
     auto threadInit = [this](){
         if(!impl->counterWorker1->isFinished() || 
-            !impl->counterWorker2->isFinished() ||
-            !impl->counterWorker3->isFinished()){
+           !impl->counterWorker2->isFinished() ||
+           !impl->counterWorker3->isFinished()){
                 qDebug() << "Operazioni non terminate";
                 emit retry();
                 return;

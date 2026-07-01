@@ -5,8 +5,8 @@
 #include <memory>
 #include <QLabel>
 #include <QString>
-#include "DerivedClass.h"
-#include "Calculator.h"
+#include "inheritance/DerivedClass.h"
+#include "singleton/Calculator.h"
 
 namespace my_project {
     static constexpr int N = 20;
