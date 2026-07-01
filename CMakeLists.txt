@@ -15,25 +15,30 @@ add_executable(QtProject1
     main.cpp
     MainWindow.h
     MainWindow.cpp
-    Worker.h
-    Worker.cpp
-    MyBtn.h
-    MyBtn.cpp
-    MyThread.h
-    MyDialog.h
-    MyDialog.cpp
-    BaseClass.h
-    BaseClass.cpp
-    DerivedClass.h
-    DerivedClass.cpp
-    Shape.h
-    Shape.cpp
-    Rectangle.h
-    Rectangle.cpp
-    Triangle.h
-    Triangle.cpp
-    Calculator.h
-    Calculator.cpp
+
+    threading/Worker.h
+    threading/Worker.cpp
+    threading/MyThread.h
+
+    gui/MyBtn.h
+    gui/MyBtn.cpp
+    gui/MyDialog.h
+    gui/MyDialog.cpp
+
+    inheritance/BaseClass.h
+    inheritance/BaseClass.cpp
+    inheritance/DerivedClass.h
+    inheritance/DerivedClass.cpp
+
+    shapes/Shape.h
+    shapes/Shape.cpp
+    shapes/Rectangle.h
+    shapes/Rectangle.cpp
+    shapes/Triangle.h
+    shapes/Triangle.cpp
+
+    singleton/Calculator.h
+    singleton/Calculator.cpp
     
     MainWindow.ui
     DialogCounter.ui
