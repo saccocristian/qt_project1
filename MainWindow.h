@@ -5,7 +5,8 @@
 #include <memory>
 #include <QLabel>
 #include <QString>
-#include "DerivedClass.h"
+#include "inheritance/DerivedClass.h"
+#include "singleton/Calculator.h"
 
 namespace my_project {
     static constexpr int N = 20;
@@ -57,4 +58,6 @@ class MainWindow : public QMainWindow {
         std::unique_ptr<Ui::DCounter> m_dialogCounter;
         std::unique_ptr<Ui::DString> m_dialogString;
         std::unique_ptr<Ui::DCheckbox> m_dialogCheckbox;
+
+        static void printFunctionExample();
     };

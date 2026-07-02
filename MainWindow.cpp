@@ -8,19 +8,19 @@
 #include <QFileDialog>
 #include <QImage>
 
-#include "ui_MainWindow.h"
-#include "ui_DialogCounter.h"
-#include "ui_DialogString.h"
-#include "ui_DialogCheckbox.h"
+#include "ui/ui_MainWindow.h"
+#include "ui/ui_DialogCounter.h"
+#include "ui/ui_DialogString.h"
+#include "ui/ui_DialogCheckbox.h"
 
-#include "MyThread.h"
-#include "Worker.h"
+#include "threading/MyThread.h"
+#include "threading/Worker.h"
 
-#include "Rectangle.h"
-#include "Triangle.h"
+#include "shapes/Rectangle.h"
+#include "shapes/Triangle.h"
 
-#include "MyBtn.h"
-#include "MyDialog.h"
+#include "qt_classes/MyBtn.h"
+#include "qt_classes/MyDialog.h"
 
 // Struttura file: impl - costruttore - distruttore - funzioni
 
@@ -81,7 +81,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
             alertLimiteCounter();
         }
     };
+    // ptr to function
+    void ( * ptrFunction)() = MainWindow::printFunctionExample;
 
+    connect(m_ui->ptrFunctionBtn,&QPushButton::clicked,this,[this,ptrFunction](){
+        ptrFunction();
+    });
+
+    CalculatorSingleton * calculator = CalculatorSingleton::getInstance();
+
+    CalculatorSingleton * calculator_copy = CalculatorSingleton::getInstance();
+    
     // 1. Connections
     connect(m_ui->btn1,&QPushButton::clicked,this,&MainWindow::slotA);
     connect(m_ui->btn2,&QPushButton::clicked,this,[this,btn2_lambda](){
@@ -99,33 +109,84 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
 
     impl->derivedClassObj = std::make_unique<DerivedClass>();
 
-    // connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup();
-    // });
-    // connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
-    // });
+    connect(m_ui->btn10,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup();
+    });
+    connect(m_ui->btn11,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup(this->impl->getCounter());
+    });
     
-    // connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopup("Hello World");
-    // });
-    // connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
-    //     this->impl->derivedClassObj->stampaPopupNonVirtual();
-    // });
+    connect(m_ui->btn12,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopup("Hello World");
+    });
+    connect(m_ui->btn13,&QPushButton::clicked,this,[this](){
+        this->impl->derivedClassObj->stampaPopupNonVirtual();
+    });
 
     connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
+
         // Rectangle - Triangle
+        // static_cast e dynamic_cast
+
         QString s = this->m_ui->shapeComboBox->currentText();
         if(s == "Rectangle"){
                 this->impl->shapeObj = std::make_unique<Rectangle>();
         } else if (s == "Triangle") {
                 this->impl->shapeObj = std::make_unique<Triangle>();
         }
+
+        // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
+        Rectangle* rectangle_dynamic = dynamic_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangle_dynamic = dynamic_cast<Triangle*>(this->impl->shapeObj.get());
+
+        Rectangle * rectangle_static = static_cast<Rectangle*>(this->impl->shapeObj.get());
+        Triangle * triangle_static = static_cast<Triangle*>(this->impl->shapeObj.get());
+
+        // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
+        if (rectangle_dynamic != nullptr) {
+            qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
+            qDebug() << "Rectangle::get_angles_number() -> " << rectangle_dynamic->get_angles_number();
+        } else {
+            qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
+        }
+
+        if (triangle_dynamic != nullptr) {
+            qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
+            qDebug() << "Triangle::get_angles_number() -> " << triangle_dynamic->get_angles_number();
+        } else {
+            qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
+        }
+        qDebug() << "-- static_cast: Comportamento anomalo a seguire, a puro scopo didattico";
+        // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
+        // che non appartiene alla classe a cui pensa di puntare da' errore!
+        if (rectangle_static != nullptr) {
+            qDebug() << "rectangleStatic e' un ptr valido a un oggetto Rectangle.";
+        } else {
+            qDebug() << "rectangleStatic NON e' un ptr valido a un oggetto Rectangle.";
+        }
+
+        if (triangle_static != nullptr) {
+            qDebug() << "triangle_static e' un ptr valido a un oggetto Triangle.";
+        } else {
+            qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
+        }
+
         qDebug() << "--- --- ---";
     });
 
-    connect(m_ui->shapeCancelBtn,&QPushButton::clicked,this,[this]() {
-        
+    auto calculator_fn = [](CalculatorSingleton * calculator){
+        calculator ->increaseCounter();
+        calculator ->printCounter();
+    };
+
+    void (*ptr_calculator_fn)(CalculatorSingleton *) = calculator_fn;
+
+    connect(m_ui->calcValueBtn,&QPushButton::clicked,this,[calculator,ptr_calculator_fn](){
+        ptr_calculator_fn(calculator);
+    });
+
+    connect(m_ui->calcCopyValueBtn,&QPushButton::clicked,this,[calculator_copy,ptr_calculator_fn](){
+        ptr_calculator_fn(calculator_copy);
     });
 
     connect(m_ui->closeBtn,&QPushButton::clicked,this,&QWidget::close);
@@ -204,14 +265,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         counterThreadStart();
     });
 
+    // quando partono i due thread eseguo evaluate per entrambi, i quali emettono segnale finished() alla fine
     connect(impl->counterThread1,&QThread::started,impl->counterWorker1,[this](){
-        impl->counterWorker1->evaluate(5);
+        impl->counterWorker1->evaluate(1000);
     });
 
     connect(impl->counterThread2,&QThread::started,impl->counterWorker2,[this](){
-        impl->counterWorker2->evaluate(20);
+        impl->counterWorker2->evaluate(2000);
     });
 
+    // non appena uno dei due finisce, viene lanciato checkCounterThread3 per far partire il terzo thread
     auto checkCounterThread3 = [this](){
         if(impl->counterThread3->isRunning()){
             qDebug() <<"Counter Thread 3 gia' partito.";
@@ -227,6 +290,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     connect(impl->counterWorker2,&Worker::finished,this,[this, checkCounterThread3](){
         checkCounterThread3();
     });
+
     connect(impl->counterWorker1,&Worker::finished,this,[](){
         qDebug() << "Thread Counter 1 finito";
     });
@@ -234,14 +298,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
         qDebug() << "Thread Counter 2 finito";
     });
 
+
     connect(impl->counterThread3,&QThread::started,this,[this](){
-        impl->counterWorker3->evaluate(5);
+        impl->counterWorker3->evaluate(2000);
     });
 
     auto threadInit = [this](){
         if(!impl->counterWorker1->isFinished() || 
-            !impl->counterWorker2->isFinished() ||
-            !impl->counterWorker3->isFinished()){
+           !impl->counterWorker2->isFinished() ||
+           !impl->counterWorker3->isFinished()){
                 qDebug() << "Operazioni non terminate";
                 emit retry();
                 return;
@@ -273,8 +338,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::quit);
     connect(this,&MainWindow::cleanup,impl->counterThread3,&MyThread::deleteLater);
     connect(this,&MainWindow::cleanup,impl->counterWorker3,&Worker::deleteLater);
-
-
 
 } // costruttore
 
@@ -410,27 +473,32 @@ void MainWindow::createDialogCheckbox(){
     qDebug() << "Uscita Finestra dialog";
 }
 
+// Funzione per gestire immagini e import dati; commentato al momento in quanto non e' necessario e darebbe fastidio nell'implementazione
 void MainWindow::showPicture() {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
+    // QString fileName = QFileDialog::getOpenFileName(this,
+    //     tr("Scegli una immagine"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
 
-    if (fileName.isEmpty()) {
-        return; // L'utente ha annullato la selezione
-    }
+    // if (fileName.isEmpty()) {
+    //     return; // L'utente ha annullato la selezione
+    // }
 
-    // Salva la pixmap originale nell'impl
-    impl->immagineOriginale = QPixmap(fileName);
+    // // Salva la pixmap originale nell'impl
+    // impl->immagineOriginale = QPixmap(fileName);
 
-    // Diamo il permesso alla label di espandere/restringere il suo contenuto visivo
-    m_ui->pictureLabelMainWindow->setScaledContents(true);
+    // // Diamo il permesso alla label di espandere/restringere il suo contenuto visivo
+    // m_ui->pictureLabelMainWindow->setScaledContents(true);
 
-    // Forziamo un primo ridimensionamento basato sulla larghezza attuale
-    if (!impl->immagineOriginale.isNull()) {
-        int larghezzaFinestra = this->width();
+    // // Forziamo un primo ridimensionamento basato sulla larghezza attuale
+    // if (!impl->immagineOriginale.isNull()) {
+    //     int larghezzaFinestra = this->width();
         
-        // Scaliamo mantenendo le proporzioni
-        QPixmap scalata = impl->immagineOriginale.scaledToWidth(larghezzaFinestra, Qt::SmoothTransformation);
-        m_ui->pictureLabelMainWindow->setPixmap(scalata);
-    }
+    //     // Scaliamo mantenendo le proporzioni
+    //     QPixmap scalata = impl->immagineOriginale.scaledToWidth(larghezzaFinestra, Qt::SmoothTransformation);
+    //     m_ui->pictureLabelMainWindow->setPixmap(scalata);
+    //     m_ui->
+    // }
 }
 
+void MainWindow::printFunctionExample(){
+    qDebug() << "Usage of ptr to function";
+}

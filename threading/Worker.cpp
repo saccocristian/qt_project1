@@ -25,7 +25,7 @@ void Worker::evaluate(int sleepTime){
     m_isStarted = true;
     qDebug() << this->objectName() + " -- ThreadId: " << QThread::currentThreadId();
 
-    for(int i=0; i<=100;i+=2){
+    for(int i=0; i<=10;i+=1){
         qDebug() << this->objectName() +  " -> Value: " << i;
         QThread::msleep(sleepTime);
     }
