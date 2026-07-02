@@ -8,10 +8,10 @@
 #include <QFileDialog>
 #include <QImage>
 
-#include "ui_MainWindow.h"
-#include "ui_DialogCounter.h"
-#include "ui_DialogString.h"
-#include "ui_DialogCheckbox.h"
+#include "ui/ui_MainWindow.h"
+#include "ui/ui_DialogCounter.h"
+#include "ui/ui_DialogString.h"
+#include "ui/ui_DialogCheckbox.h"
 
 #include "threading/MyThread.h"
 #include "threading/Worker.h"
@@ -19,8 +19,8 @@
 #include "shapes/Rectangle.h"
 #include "shapes/Triangle.h"
 
-#include "gui/MyBtn.h"
-#include "gui/MyDialog.h"
+#include "qt_classes/MyBtn.h"
+#include "qt_classes/MyDialog.h"
 
 // Struttura file: impl - costruttore - distruttore - funzioni
 

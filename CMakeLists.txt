@@ -11,7 +11,7 @@ set(CMAKE_AUTOUIC ON) # per .ui file
 
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
-add_executable(QtProject1 
+add_executable(QtProject1
     main.cpp
     MainWindow.h
     MainWindow.cpp
@@ -20,10 +20,10 @@ add_executable(QtProject1
     threading/Worker.cpp
     threading/MyThread.h
 
-    gui/MyBtn.h
-    gui/MyBtn.cpp
-    gui/MyDialog.h
-    gui/MyDialog.cpp
+    qt_classes/MyBtn.h
+    qt_classes/MyBtn.cpp
+    qt_classes/MyDialog.h
+    qt_classes/MyDialog.cpp
 
     inheritance/BaseClass.h
     inheritance/BaseClass.cpp
@@ -40,10 +40,10 @@ add_executable(QtProject1
     singleton/Calculator.h
     singleton/Calculator.cpp
     
-    MainWindow.ui
-    DialogCounter.ui
-    DialogString.ui
-    DialogCheckbox.ui)
+    ui/MainWindow.ui
+    ui/DialogCounter.ui
+    ui/DialogString.ui
+    ui/DialogCheckbox.ui)
 
 # Collega le librerie di Qt all' eseguibile
 target_link_libraries(QtProject1 PRIVATE Qt5::Widgets)
