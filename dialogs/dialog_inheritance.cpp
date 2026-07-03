@@ -1,18 +1,48 @@
 #include "dialog_inheritance.h"
 #include "ui_d_inheritance.h"
+#include "shapes/Shape.h"
 
 class dialog_inheritance::dialog_inheritance_impl{
-    public:
 
+    public:
+        int getCounter() const {
+            return m_counter;
+        }
+        void setCounter(const int counter){
+            m_counter = counter;
+        }
+        void incrementCounter(){
+            m_counter +=1;
+        }
+
+        std::unique_ptr<DerivedClass> derivedClassObj;
+        std::unique_ptr<Shape> shapeObj;
     private:
+        int m_counter{0};
+
 
 };
 
-dialog_inheritance::dialog_inheritance(QWidget * parent) : QDialog(parent),m_inheritance_impl(std::make_unique<dialog_inheritance_impl>()) {
+dialog_inheritance::dialog_inheritance(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<dialog_inheritance_impl>()) {
 
-        m_inheritance_ui = std::make_unique<Ui::d_inheritance>();
-        m_inheritance_ui->setupUi(this);
+        m_ui = std::make_unique<Ui::d_inheritance>();
+        m_ui->setupUi(this);
 
+        m_impl->derivedClassObj = std::make_unique<DerivedClass>();
+
+        connect(m_ui->btn1,&QPushButton::clicked,this,[this](){
+            m_impl->derivedClassObj->stampaPopup();
+        });
+        connect(m_ui->btn2,&QPushButton::clicked,this,[this](){
+            m_impl->derivedClassObj->stampaPopup(m_impl->getCounter());
+        });
+        
+        connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
+            m_impl->derivedClassObj->stampaPopup("Hello World");
+        });
+        connect(m_ui->btn4,&QPushButton::clicked,this,[this](){
+            m_impl->derivedClassObj->stampaPopupNonVirtual();
+        });
     //     connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
 
     //     // Rectangle - Triangle

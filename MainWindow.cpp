@@ -31,7 +31,6 @@
 class MainWindow::MainWindowImpl {
 
     public:
-        
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
 
@@ -47,7 +46,6 @@ class MainWindow::MainWindowImpl {
 
         std::unique_ptr<Shape> shapeObj;
     private:
-        int m_counter{0};
         int m_threadCounter1{0};
         int m_threadCounter2{0};
         int m_threadCounter3{0};
