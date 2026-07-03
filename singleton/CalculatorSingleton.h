@@ -1,3 +1,5 @@
+#pragma once
+
 class CalculatorSingleton {
     public:
         static CalculatorSingleton * getInstance();
