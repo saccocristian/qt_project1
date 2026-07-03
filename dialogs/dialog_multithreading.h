@@ -16,9 +16,12 @@ class dialog_multithreading : public QDialog {
     protected:
         void dialog_multithreading::closeEvent(QCloseEvent *event) override;
 
+    signals:
+        void cleanup();
+        void retry();
     private slots:
         void startThread();
-        
+
     private:
         class dialog_multithreading_impl;
         std::unique_ptr<dialog_multithreading_impl> m_impl;
