@@ -1,12 +1,14 @@
 #pragma once
 
+#include "inheritance/DerivedClass.h"
+#include "singleton/CalculatorSingleton.h"
+#include "dialogs/dialog_widgets.h"
+
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <memory>
 #include <QLabel>
 #include <QString>
-#include "inheritance/DerivedClass.h"
-#include "singleton/Calculator.h"
 
 namespace my_project {
     static constexpr int N = 20;
@@ -14,9 +16,6 @@ namespace my_project {
 
 namespace Ui{
     class MainWindow;
-    class DCounter;
-    class DString;
-    class DCheckbox;
 }
 
 class MainWindow : public QMainWindow {
@@ -26,27 +25,15 @@ class MainWindow : public QMainWindow {
         explicit MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
-    protected:
-        void closeEvent(QCloseEvent *event) override;
-
     signals:
         void alertLimiteCounter();
         void cleanup();
         void setCounter();
         void resetCounter(int value);
         void retry();
-        
+    
     private slots:
-        void slotA();
-        void slotB();
-        void slotC();
-        void slotD();
-        void slotE();
-        void createDialogCounter();
-        void createDialogString();
-        void createDialogCheckbox();
-        void showPicture();
-        
+        void receive_data(const Widget_dialog_data &data);
     private:
         // forward declaration
         class MainWindowImpl;
@@ -55,9 +42,6 @@ class MainWindow : public QMainWindow {
         std::unique_ptr<MainWindowImpl> impl;
 
         std::unique_ptr<Ui::MainWindow> m_ui; // "MainWindow" deriva dal nome di QMainWindow dentro QtDesigner
-        std::unique_ptr<Ui::DCounter> m_dialogCounter;
-        std::unique_ptr<Ui::DString> m_dialogString;
-        std::unique_ptr<Ui::DCheckbox> m_dialogCheckbox;
 
         static void printFunctionExample();
-    };
+};
