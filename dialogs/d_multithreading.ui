@@ -24,7 +24,7 @@
    <item row="5" column="0" colspan="2">
     <widget class="QPushButton" name="btn2">
      <property name="text">
-      <string>btn9 - Multithreading 3 workers</string>
+      <string>Multithreading 3 workers</string>
      </property>
     </widget>
    </item>
@@ -38,13 +38,6 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="btn1">
-     <property name="text">
-      <string>btn4 - Multithreading Simulation</string>
-     </property>
-    </widget>
-   </item>
    <item row="6" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
@@ -52,6 +45,13 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="btn1">
+     <property name="text">
+      <string>Multithreading Simulation</string>
      </property>
     </widget>
    </item>
@@ -66,8 +66,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>490</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -82,12 +82,28 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>422</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tb1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btn1</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>43</y>
     </hint>
    </hints>
   </connection>
