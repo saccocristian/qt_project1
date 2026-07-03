@@ -1,5 +1,6 @@
 #pragma once
 #include <QDialog>
+#include "inheritance/DerivedClass.h"
 
 namespace Ui{
     class d_inheritance;
@@ -11,8 +12,10 @@ class dialog_inheritance : public QDialog {
     public: 
         explicit dialog_inheritance(QWidget *parent = nullptr);
         ~dialog_inheritance();
+
     private:
         class dialog_inheritance_impl; // forward declaration
-        std::unique_ptr<dialog_inheritance_impl> m_inheritance_impl;
-        std::unique_ptr<Ui::d_inheritance> m_inheritance_ui;
+        std::unique_ptr<dialog_inheritance_impl> m_impl;
+        std::unique_ptr<Ui::d_inheritance> m_ui;
+
 };
