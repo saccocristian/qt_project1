@@ -27,7 +27,6 @@ class MainWindow : public QMainWindow {
 
     signals:
         void alertLimiteCounter();
-        void cleanup();
         void setCounter();
         void resetCounter(int value);
         void retry();

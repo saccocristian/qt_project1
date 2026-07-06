@@ -13,7 +13,6 @@ class dialog_initial : public QDialog {
 
     signals:
         void alertLimiteCounter();
-        void cleanup();
         void setCounter();
         void resetCounter(int value);
         void retry();

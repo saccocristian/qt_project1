@@ -94,7 +94,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
 // Distruttore
 MainWindow::~MainWindow() {
     qDebug() << "~ QWidget : MainWindow";
-    emit cleanup();
 }
 
 void MainWindow::receive_data(const Widget_dialog_data &data){
