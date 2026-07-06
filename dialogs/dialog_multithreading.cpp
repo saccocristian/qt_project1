@@ -30,8 +30,8 @@ dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent)
     m_impl->worker = new Worker();
     m_impl->worker->moveToThread(m_impl->thread);
 
+    // clicco -> thread parte -> worker parte -> worker emette segnale finished -> worker va su quit
     connect(m_ui->btn1,&QPushButton::clicked,this,&dialog_multithreading::startThread);
-    // connect(m_impl->thread,&QThread::started,m_impl->worker,&Worker::doWork);
     connect(m_impl->thread,&QThread::started,this,[this](){
         m_impl->worker->doWork();
         qDebug() << "thread::started\t->\tworker::doWork -- ThreadId:" << QThread::currentThreadId();
