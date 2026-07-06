@@ -30,6 +30,6 @@ class dialog_initial : public QDialog {
         ~dialog_initial();
     private:
         class dialog_initial_impl;
-        std::unique_ptr<dialog_initial_impl> m_initial_impl;
-        std::unique_ptr<Ui::d_initial> m_initial_ui;
+        std::unique_ptr<dialog_initial_impl> m_impl;
+        std::unique_ptr<Ui::d_initial> m_ui;
 };

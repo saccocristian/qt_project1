@@ -27,6 +27,6 @@ class dialog_widgets : public QDialog{
         ~dialog_widgets();
     private:
         class dialog_widgets_impl;
-        std::unique_ptr<dialog_widgets_impl> m_widgets_impl;
-        std::unique_ptr<Ui::d_widgets> m_widgets_ui;
+        std::unique_ptr<dialog_widgets_impl> m_impl;
+        std::unique_ptr<Ui::d_widgets> m_ui;
 };
