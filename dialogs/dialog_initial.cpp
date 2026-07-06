@@ -1,5 +1,5 @@
 #include "dialog_initial.h"
-#include "ui_d_initial.h"
+#include "../ui/ui_d_initial.h"
 
 #include <QMessageBox>
 #include <QDebug>

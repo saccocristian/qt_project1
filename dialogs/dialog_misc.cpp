@@ -1,5 +1,5 @@
 #include "dialog_misc.h"
-#include "ui_d_misc.h"
+#include "../ui/ui_d_misc.h"
 #include "singleton/CalculatorSingleton.h"
 
 #include <QDebug>
