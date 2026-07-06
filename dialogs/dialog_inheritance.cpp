@@ -1,5 +1,5 @@
 #include "dialog_inheritance.h"
-#include "ui_d_inheritance.h"
+#include "../ui/ui_d_inheritance.h"
 #include "shapes/Shape.h"
 #include "shapes/Rectangle.h"
 #include "shapes/Triangle.h"

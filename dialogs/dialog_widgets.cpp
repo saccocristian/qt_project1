@@ -1,5 +1,5 @@
 #include "dialog_widgets.h"
-#include "ui_d_widgets.h"
+#include "../ui/ui_d_widgets.h"
 
 class dialog_widgets::dialog_widgets_impl{
     public:

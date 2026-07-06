@@ -1,5 +1,5 @@
 #include "dialog_multithreading.h"
-#include "ui_d_multithreading.h"
+#include "../ui/ui_d_multithreading.h"
 
 #include "threading/MyThread.h"
 #include "threading/Worker.h"
