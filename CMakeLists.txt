@@ -53,11 +53,11 @@ add_executable(QtProject1
 
     shapes/Shape.h
 
-    dialogs/d_inheritance.ui
-    dialogs/d_initial.ui
-    dialogs/d_misc.ui
-    dialogs/d_multithreading.ui
-    dialogs/d_widgets.ui
+    ui/d_inheritance.ui
+    ui/d_initial.ui
+    ui/d_misc.ui
+    ui/d_multithreading.ui
+    ui/d_widgets.ui
     ui/MainWindow.ui
 
     )

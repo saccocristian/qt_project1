@@ -162,7 +162,8 @@ dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent)
 }
 
 dialog_multithreading::~dialog_multithreading(){
-    
+    qDebug() << "dialog::multithreading::~dialog_multithreading()";
+    emit cleanup();
 }
 
 void dialog_multithreading::startThread(){
