@@ -14,8 +14,7 @@ class dialog_misc : public QDialog {
         ~dialog_misc();
     private:
         class dialog_misc_impl;
-        std::unique_ptr<dialog_misc_impl> m_misc_impl;
-        std::unique_ptr<Ui::d_misc> m_misc_ui;
+        std::unique_ptr<dialog_misc_impl> m_impl;
+        std::unique_ptr<Ui::d_misc> m_ui;
 
-        void dialog_misc::printFunctionExample();
 };
