@@ -14,7 +14,7 @@ class dialog_multithreading : public QDialog {
         ~dialog_multithreading();
 
     protected:
-        void dialog_multithreading::closeEvent(QCloseEvent *event) override;
+        void closeEvent(QCloseEvent *event) override;
 
     signals:
         void cleanup();
