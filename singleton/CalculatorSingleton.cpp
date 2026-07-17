@@ -1,4 +1,4 @@
-#include "Calculator.h"
+#include "CalculatorSingleton.h"
 #include <QDebug>
 
 CalculatorSingleton* CalculatorSingleton::m_calculator_instance = nullptr;
