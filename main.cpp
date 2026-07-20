@@ -28,3 +28,6 @@ int main(int argc, char *argv[]){
     qDebug() << "--- Main Event Loop: Fine ---";
     return app_res;
 }
+
+// modifica 1
+// modifica 2
