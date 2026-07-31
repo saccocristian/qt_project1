@@ -1,10 +1,10 @@
-#include "dialog_inheritance.h"
-#include "../ui/ui_d_inheritance.h"
+#include "inheritance.h"
+#include "../ui/ui_inheritance.h"
 #include "shapes/Shape.h"
 #include "shapes/Rectangle.h"
 #include "shapes/Triangle.h"
 
-class dialog_inheritance::dialog_inheritance_impl{
+class inheritance::inheritance_impl{
 
     public:
         int getCounter() const {
@@ -25,9 +25,9 @@ class dialog_inheritance::dialog_inheritance_impl{
 
 };
 
-dialog_inheritance::dialog_inheritance(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<dialog_inheritance_impl>()) {
+inheritance::inheritance(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<inheritance_impl>()) {
 
-        m_ui = std::make_unique<Ui::d_inheritance>();
+        m_ui = std::make_unique<Ui::inheritance>();
         m_ui->setupUi(this);
 
         m_impl->derivedClassObj = std::make_unique<DerivedClass>();
@@ -52,18 +52,18 @@ dialog_inheritance::dialog_inheritance(QWidget * parent) : QDialog(parent),m_imp
 
         QString s = this->m_ui->shapeComboBox->currentText();
         if(s == "Rectangle"){
-                this->m_impl->shapeObj = std::make_unique<Rectangle>();
+                this->m_impl->shapeObj = std::make_unique<Rectangle>(2,4);
         } else if (s == "Triangle") {
-                this->m_impl->shapeObj = std::make_unique<Triangle>();
+                this->m_impl->shapeObj = std::make_unique<Triangle>(3,3);
         }
-
+        
         // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
         Rectangle* rectangle_dynamic = dynamic_cast<Rectangle*>(this->m_impl->shapeObj.get());
         Triangle * triangle_dynamic = dynamic_cast<Triangle*>(this->m_impl->shapeObj.get());
 
         Rectangle * rectangle_static = static_cast<Rectangle*>(this->m_impl->shapeObj.get());
         Triangle * triangle_static = static_cast<Triangle*>(this->m_impl->shapeObj.get());
-
+        
         // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
         if (rectangle_dynamic != nullptr) {
             qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
@@ -97,6 +97,6 @@ dialog_inheritance::dialog_inheritance(QWidget * parent) : QDialog(parent),m_imp
     });
 }
 
-dialog_inheritance::~dialog_inheritance(){
+inheritance::~inheritance(){
     
 }

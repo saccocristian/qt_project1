@@ -2,11 +2,11 @@
 
 #include "ui/ui_MainWindow.h"
 
-#include "dialogs/dialog_initial.h"
-#include "dialogs/dialog_inheritance.h"
-#include "dialogs/dialog_misc.h"
-#include "dialogs/dialog_multithreading.h"
-#include "dialogs/dialog_widgets.h"
+#include "dialogs/initial.h"
+#include "dialogs/inheritance.h"
+#include "dialogs/misc.h"
+#include "dialogs/multithreading.h"
+#include "dialogs/widgets.h"
 // -----------------
 
 #include <QDebug>
@@ -61,28 +61,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), impl(std::make_un
     // resize(800,300);
 
     connect(m_ui->btn1,&QPushButton::clicked,this,[this](){
-        std::unique_ptr<dialog_initial> dialog = std::make_unique<dialog_initial>(this);
+        std::unique_ptr<initial> dialog = std::make_unique<initial>(this);
         dialog->exec();
     });
 
     connect(m_ui->btn2,&QPushButton::clicked,this,[this](){
-        std::unique_ptr<dialog_widgets> dialog = std::make_unique<dialog_widgets>(this);
-        connect(dialog.get(),&dialog_widgets::send_data,this,&MainWindow::receive_data);
+        std::unique_ptr<widgets> dialog = std::make_unique<widgets>(this);
+        connect(dialog.get(),&widgets::send_data,this,&MainWindow::receive_data);
 
         dialog->exec();
     });
 
     connect(m_ui->btn3,&QPushButton::clicked,this,[this](){
-        std::unique_ptr<dialog_multithreading> dialog = std::make_unique<dialog_multithreading>(this);
+        std::unique_ptr<multithreading> dialog = std::make_unique<multithreading>(this);
         dialog->exec();
     });
     connect(m_ui->btn4,&QPushButton::clicked,this,[this](){
-        std::unique_ptr<dialog_inheritance> dialog = std::make_unique<dialog_inheritance>(this);
+        std::unique_ptr<inheritance> dialog = std::make_unique<inheritance>(this);
         dialog->exec();
     });
     
     connect(m_ui->btn5,&QPushButton::clicked,this,[this](){
-        std::unique_ptr<dialog_misc> dialog = std::make_unique<dialog_misc>(this);
+        std::unique_ptr<misc> dialog = std::make_unique<misc>(this);
         dialog->exec();
     });
 
@@ -96,7 +96,7 @@ MainWindow::~MainWindow() {
     qDebug() << "~ QWidget : MainWindow";
 }
 
-void MainWindow::receive_data(const Widget_dialog_data &data){
+void MainWindow::receive_data(const Widget_data &data){
     m_ui->lineEditValueLabel->setText(data.line_edit);
     m_ui->checkboxesValueLabel->setText(data.checkbox_list);
     m_ui->radioButtonValueLabel->setText(data.radio_button);

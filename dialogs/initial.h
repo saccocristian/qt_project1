@@ -5,10 +5,10 @@
 #include <QRadioButton>
 
 namespace Ui{
-    class d_initial;
+    class initial;
 }
 
-class dialog_initial : public QDialog {
+class initial : public QDialog {
     Q_OBJECT
 
     signals:
@@ -25,10 +25,10 @@ class dialog_initial : public QDialog {
 
 
     public:
-        explicit dialog_initial (QWidget * parent = nullptr);
-        ~dialog_initial();
+        explicit initial (QWidget * parent = nullptr);
+        ~initial();
     private:
-        class dialog_initial_impl;
-        std::unique_ptr<dialog_initial_impl> m_impl;
-        std::unique_ptr<Ui::d_initial> m_ui;
+        class initial_impl;
+        std::unique_ptr<initial_impl> m_impl;
+        std::unique_ptr<Ui::initial> m_ui;
 };

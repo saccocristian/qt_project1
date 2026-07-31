@@ -1,19 +1,19 @@
-#include "dialog_widgets.h"
-#include "../ui/ui_d_widgets.h"
+#include "widgets.h"
+#include "../ui/ui_widgets.h"
 
-class dialog_widgets::dialog_widgets_impl{
+class widgets::widgets_impl{
     public:
 
     private:
         
 };
 
-dialog_widgets::dialog_widgets(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<dialog_widgets_impl>()) {
-    m_ui = std::make_unique<Ui::d_widgets>();
+widgets::widgets(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<widgets_impl>()) {
+    m_ui = std::make_unique<Ui::widgets>();
     m_ui->setupUi(this);
     
     connect(m_ui->buttonBox,&QDialogButtonBox::accepted,this,[this](){
-        Widget_dialog_data data;
+        Widget_data data;
 
         data.line_edit = m_ui->lineEdit->text();
 
@@ -38,6 +38,6 @@ dialog_widgets::dialog_widgets(QWidget * parent) : QDialog(parent),m_impl(std::m
     });
 }; // costruttore
 
-dialog_widgets::~dialog_widgets(){
+widgets::~widgets(){
 
 }

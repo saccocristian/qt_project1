@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>d_initial</class>
- <widget class="QDialog" name="d_initial">
+ <class>initial</class>
+ <widget class="QDialog" name="initial">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -142,7 +142,7 @@
   <connection>
    <sender>dialogConfirmBtn</sender>
    <signal>accepted()</signal>
-   <receiver>d_initial</receiver>
+   <receiver>initial</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -158,7 +158,7 @@
   <connection>
    <sender>dialogConfirmBtn</sender>
    <signal>rejected()</signal>
-   <receiver>d_initial</receiver>
+   <receiver>initial</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

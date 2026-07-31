@@ -2,7 +2,7 @@
 
 #include "inheritance/DerivedClass.h"
 #include "singleton/CalculatorSingleton.h"
-#include "dialogs/dialog_widgets.h"
+#include "dialogs/widgets.h"
 
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow {
         void retry();
     
     private slots:
-        void receive_data(const Widget_dialog_data &data);
+        void receive_data(const Widget_data &data);
     private:
         // forward declaration
         class MainWindowImpl;

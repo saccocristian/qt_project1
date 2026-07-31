@@ -17,16 +17,16 @@ add_executable(QtProject1
     MainWindow.h
     MainWindow.cpp
 
-    dialogs/dialog_inheritance.h
-    dialogs/dialog_inheritance.cpp
-    dialogs/dialog_initial.h
-    dialogs/dialog_initial.cpp
-    dialogs/dialog_misc.h
-    dialogs/dialog_misc.cpp
-    dialogs/dialog_multithreading.h
-    dialogs/dialog_multithreading.cpp
-    dialogs/dialog_widgets.cpp
-    dialogs/dialog_widgets.h
+    dialogs/inheritance.h
+    dialogs/inheritance.cpp
+    dialogs/initial.h
+    dialogs/initial.cpp
+    dialogs/misc.h
+    dialogs/misc.cpp
+    dialogs/multithreading.h
+    dialogs/multithreading.cpp
+    dialogs/widgets.cpp
+    dialogs/widgets.h
 
     inheritance/BaseClass.h
     inheritance/BaseClass.cpp
@@ -53,13 +53,12 @@ add_executable(QtProject1
 
     shapes/Shape.h
 
-    ui/d_inheritance.ui
-    ui/d_initial.ui
-    ui/d_misc.ui
-    ui/d_multithreading.ui
-    ui/d_widgets.ui
+    ui/inheritance.ui
+    ui/initial.ui
+    ui/misc.ui
+    ui/multithreading.ui
+    ui/widgets.ui
     ui/MainWindow.ui
-
     )
 
 # Collega le librerie di Qt all' eseguibile

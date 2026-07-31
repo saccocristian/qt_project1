@@ -1,5 +1,5 @@
-#include "dialog_multithreading.h"
-#include "../ui/ui_d_multithreading.h"
+#include "multithreading.h"
+#include "../ui/ui_multithreading.h"
 
 #include "threading/MyThread.h"
 #include "threading/Worker.h"
@@ -7,7 +7,7 @@
 #include <QPointer>
 #include <QMessageBox>
 
-class dialog_multithreading::dialog_multithreading_impl{
+class multithreading::multithreading_impl{
     public:
         QPointer<MyThread> thread;
         QPointer<Worker> worker;
@@ -22,8 +22,8 @@ class dialog_multithreading::dialog_multithreading_impl{
     private:
 };
 
-dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent), m_impl(std::make_unique<dialog_multithreading_impl>()) {
-    m_ui = std::make_unique<Ui::d_multithreading>();
+multithreading::multithreading(QWidget * parent) : QDialog(parent), m_impl(std::make_unique<multithreading_impl>()) {
+    m_ui = std::make_unique<Ui::multithreading>();
     m_ui->setupUi(this);
 
     m_impl->thread = new MyThread();
@@ -31,7 +31,7 @@ dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent)
     m_impl->worker->moveToThread(m_impl->thread);
 
     // clicco -> thread parte -> worker parte -> worker emette segnale finished -> worker va su quit
-    connect(m_ui->btn1,&QPushButton::clicked,this,&dialog_multithreading::startThread);
+    connect(m_ui->btn1,&QPushButton::clicked,this,&multithreading::startThread);
     connect(m_impl->thread,&QThread::started,this,[this](){
         m_impl->worker->doWork();
         qDebug() << "thread::started\t->\tworker::doWork -- ThreadId:" << QThread::currentThreadId();
@@ -46,14 +46,14 @@ dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent)
     connect(m_impl->worker,&Worker::finished,m_impl->thread,&MyThread::quit);
 
 
-    connect(this,&dialog_multithreading::cleanup,m_impl->thread,&MyThread::quit);
-    connect(this,&dialog_multithreading::cleanup,m_impl->thread,&MyThread::deleteLater);
-    connect(this,&dialog_multithreading::cleanup,m_impl->worker,&Worker::deleteLater);
-    connect(this,&dialog_multithreading::cleanup,this,[](){
+    connect(this,&multithreading::cleanup,m_impl->thread,&MyThread::quit);
+    connect(this,&multithreading::cleanup,m_impl->thread,&MyThread::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->worker,&Worker::deleteLater);
+    connect(this,&multithreading::cleanup,this,[](){
         qDebug() << "------------------------------------";
-        qDebug() << "dialog_multithreading::cleanup -> thread::quit";
-        qDebug() << "dialog_multithreading::cleanup -> thread::deleteLater";
-        qDebug() << "dialog_multithreading::cleanup -> worker::deleteLater";
+        qDebug() << "multithreading::cleanup -> thread::quit";
+        qDebug() << "multithreading::cleanup -> thread::deleteLater";
+        qDebug() << "multithreading::cleanup -> worker::deleteLater";
     });
     m_impl->counterThread1 = new MyThread();
     m_impl->counterThread2 = new MyThread();
@@ -144,31 +144,31 @@ dialog_multithreading::dialog_multithreading(QWidget * parent) : QDialog(parent)
         threadInit();
     });
 
-    connect(this,&dialog_multithreading::retry,this, [this,threadInit](){
+    connect(this,&multithreading::retry,this, [this,threadInit](){
         threadInit();
     });
 
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread1,&MyThread::quit);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread1,&MyThread::deleteLater);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterWorker1,&Worker::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterThread1,&MyThread::quit);
+    connect(this,&multithreading::cleanup,m_impl->counterThread1,&MyThread::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterWorker1,&Worker::deleteLater);
 
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread2,&MyThread::quit);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread2,&MyThread::deleteLater);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterWorker2,&Worker::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterThread2,&MyThread::quit);
+    connect(this,&multithreading::cleanup,m_impl->counterThread2,&MyThread::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterWorker2,&Worker::deleteLater);
 
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread3,&MyThread::quit);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterThread3,&MyThread::deleteLater);
-    connect(this,&dialog_multithreading::cleanup,m_impl->counterWorker3,&Worker::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterThread3,&MyThread::quit);
+    connect(this,&multithreading::cleanup,m_impl->counterThread3,&MyThread::deleteLater);
+    connect(this,&multithreading::cleanup,m_impl->counterWorker3,&Worker::deleteLater);
 }
 
-dialog_multithreading::~dialog_multithreading(){
-    qDebug() << "dialog::multithreading::~dialog_multithreading()";
+multithreading::~multithreading(){
+    qDebug() << "dialog::multithreading::~multithreading()";
     emit cleanup();
 }
 
-void dialog_multithreading::startThread(){
+void multithreading::startThread(){
     qDebug() << "------------------------------------";
-    qDebug() << "dialog_multithreading::startThread -- ThreadId:" << QThread::currentThreadId();
+    qDebug() << "multithreading::startThread -- ThreadId:" << QThread::currentThreadId();
 
     if(m_impl->thread && m_impl->thread->isRunning()){
         qDebug() << "Thread is already running.";
@@ -177,12 +177,12 @@ void dialog_multithreading::startThread(){
     m_impl->thread->start();
 }
 
-void dialog_multithreading::closeEvent(QCloseEvent *event){
+void multithreading::closeEvent(QCloseEvent *event){
     if (m_impl->thread && m_impl->thread->isRunning()){
         qDebug() << "Thread not finished";
         QMessageBox::critical(this,"Error","Thread is running, please wait ...");
         event->ignore();
         return;
     }
-    dialog_multithreading::closeEvent(event);
+    multithreading::closeEvent(event);
 }

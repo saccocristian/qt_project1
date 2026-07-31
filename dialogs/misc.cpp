@@ -1,21 +1,21 @@
-#include "dialog_misc.h"
-#include "../ui/ui_d_misc.h"
+#include "misc.h"
+#include "../ui/ui_misc.h"
 #include "singleton/CalculatorSingleton.h"
 
 #include <QDebug>
 
 void printFunctionExample();
 
-class dialog_misc::dialog_misc_impl {
+class misc::misc_impl {
     public:
 
     private:
         
 };
 
-dialog_misc::dialog_misc(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<dialog_misc_impl>()) {
+misc::misc(QWidget * parent) : QDialog(parent),m_impl(std::make_unique<misc_impl>()) {
     
-    m_ui = std::make_unique<Ui::d_misc>();
+    m_ui = std::make_unique<Ui::misc>();
     m_ui->setupUi(this);
 
     // ptr to function
@@ -42,7 +42,7 @@ dialog_misc::dialog_misc(QWidget * parent) : QDialog(parent),m_impl(std::make_un
     });
 }; // costruttore
 
-dialog_misc::~dialog_misc(){
+misc::~misc(){
     
 };
 
