@@ -27,7 +27,9 @@ add_executable(QtProject1
     dialogs/multithreading.cpp
     dialogs/widgets.cpp
     dialogs/widgets.h
-
+    dialogs/templates.h
+    dialogs/templates.cpp
+    
     inheritance/BaseClass.h
     inheritance/BaseClass.cpp
     inheritance/DerivedClass.h
@@ -59,6 +61,7 @@ add_executable(QtProject1
     ui/multithreading.ui
     ui/widgets.ui
     ui/MainWindow.ui
+    ui/templates.ui
     )
 
 # Collega le librerie di Qt all' eseguibile

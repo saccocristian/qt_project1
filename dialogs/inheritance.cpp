@@ -45,58 +45,65 @@ inheritance::inheritance(QWidget * parent) : QDialog(parent),m_impl(std::make_un
         connect(m_ui->btn4,&QPushButton::clicked,this,[this](){
             m_impl->derivedClassObj->stampaPopupNonVirtual();
         });
-        connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,[this](){
+        connect(m_ui->shapeOkBtn,&QPushButton::clicked,this,&inheritance::cast_implementation);
 
-        // Rectangle - Triangle
-        // static_cast e dynamic_cast
-
-        QString s = this->m_ui->shapeComboBox->currentText();
-        if(s == "Rectangle"){
-                this->m_impl->shapeObj = std::make_unique<Rectangle>(2,4);
-        } else if (s == "Triangle") {
-                this->m_impl->shapeObj = std::make_unique<Triangle>(3,3);
-        }
-        
-        // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
-        Rectangle* rectangle_dynamic = dynamic_cast<Rectangle*>(this->m_impl->shapeObj.get());
-        Triangle * triangle_dynamic = dynamic_cast<Triangle*>(this->m_impl->shapeObj.get());
-
-        Rectangle * rectangle_static = static_cast<Rectangle*>(this->m_impl->shapeObj.get());
-        Triangle * triangle_static = static_cast<Triangle*>(this->m_impl->shapeObj.get());
-        
-        // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
-        if (rectangle_dynamic != nullptr) {
-            qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
-            qDebug() << "Rectangle::get_angles_number() -> " << rectangle_dynamic->get_angles_number();
-        } else {
-            qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
-        }
-
-        if (triangle_dynamic != nullptr) {
-            qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
-            qDebug() << "Triangle::get_angles_number() -> " << triangle_dynamic->get_angles_number();
-        } else {
-            qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
-        }
-        qDebug() << "-- static_cast: Comportamento anomalo a seguire, a puro scopo didattico";
-        // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
-        // che non appartiene alla classe a cui pensa di puntare da' errore!
-        if (rectangle_static != nullptr) {
-            qDebug() << "rectangleStatic e' un ptr valido a un oggetto Rectangle.";
-        } else {
-            qDebug() << "rectangleStatic NON e' un ptr valido a un oggetto Rectangle.";
-        }
-
-        if (triangle_static != nullptr) {
-            qDebug() << "triangle_static e' un ptr valido a un oggetto Triangle.";
-        } else {
-            qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
-        }
-
-        qDebug() << "--- --- ---";
-    });
+        std::unique_ptr<Rectangle> rectangle = std::make_unique<Rectangle>(2,4);
+        std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(3,3);
+        double value = Shape::getLargerArea(rectangle.get(),triangle.get());
+        qDebug() << "Print: -----> " << value;
 }
 
 inheritance::~inheritance(){
     
+}
+
+void inheritance::cast_implementation(){
+
+    // Rectangle - Triangle
+    // static_cast e dynamic_cast
+
+    QString s = this->m_ui->shapeComboBox->currentText();
+    if(s == "Rectangle"){
+            this->m_impl->shapeObj = std::make_unique<Rectangle>(2,4);
+    } else if (s == "Triangle") {
+            this->m_impl->shapeObj = std::make_unique<Triangle>(3,3);
+    }
+    
+    // dynamic_cast: uno dei due puntatori appena realizzati sara' nullptr perche' non sara' in grado di fare il cast
+    Rectangle* rectangle_dynamic = dynamic_cast<Rectangle*>(this->m_impl->shapeObj.get());
+    Triangle * triangle_dynamic = dynamic_cast<Triangle*>(this->m_impl->shapeObj.get());
+
+    Rectangle * rectangle_static = static_cast<Rectangle*>(this->m_impl->shapeObj.get());
+    Triangle * triangle_static = static_cast<Triangle*>(this->m_impl->shapeObj.get());
+    
+    // dynamic check behaviour: controlla effettivamente se la risorsa a cui punta coincida con lo stesso tipo; altrimenti da' un nullptr
+    if (rectangle_dynamic != nullptr) {
+        qDebug() << "rectDynamic e' un ptr valido a un oggetto Rectangle.";
+        qDebug() << "Rectangle::get_angles_number() -> " << rectangle_dynamic->get_angles_number();
+    } else {
+        qDebug() << "rectDynamic NON e' un ptr valido a un oggetto Rectangle.";
+    }
+
+    if (triangle_dynamic != nullptr) {
+        qDebug() << "triangleDynamic e' un ptr valido a un oggetto Triangle.";
+        qDebug() << "Triangle::get_angles_number() -> " << triangle_dynamic->get_angles_number();
+    } else {
+        qDebug() << "triangleDynamic NON e' un ptr valido a un oggetto Triangle.";
+    }
+    qDebug() << "-- static_cast: Comportamento anomalo a seguire, a puro scopo didattico";
+    // static check behaviour -> i puntatori non sono nulli in caso di errato assegnamento, ma se provassi a chiamare un metodo
+    // che non appartiene alla classe a cui pensa di puntare da' errore!
+    if (rectangle_static != nullptr) {
+        qDebug() << "rectangleStatic e' un ptr valido a un oggetto Rectangle.";
+    } else {
+        qDebug() << "rectangleStatic NON e' un ptr valido a un oggetto Rectangle.";
+    }
+
+    if (triangle_static != nullptr) {
+        qDebug() << "triangle_static e' un ptr valido a un oggetto Triangle.";
+    } else {
+        qDebug() << "triangleStatic NON e' un ptr valido a un oggetto Triangle.";
+    }
+
+    qDebug() << "--- --- ---";
 }

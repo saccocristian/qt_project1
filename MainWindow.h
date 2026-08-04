@@ -33,6 +33,14 @@ class MainWindow : public QMainWindow {
     
     private slots:
         void receive_data(const Widget_data &data);
+
+        void open_initial_dialog();
+        void open_widgets_dialog();
+        void open_multithreading_dialog();
+        void open_inheritance_dialog();
+        void open_misc_dialog();
+        void open_template_dialog();
+
     private:
         // forward declaration
         class MainWindowImpl;

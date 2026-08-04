@@ -13,9 +13,11 @@ class inheritance : public QDialog {
         explicit inheritance(QWidget *parent = nullptr);
         ~inheritance();
 
+    public slots:
+        void cast_implementation();
+        
     private:
         class inheritance_impl; // forward declaration
         std::unique_ptr<inheritance_impl> m_impl;
         std::unique_ptr<Ui::inheritance> m_ui;
-
 };

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
+    <width>672</width>
     <height>461</height>
    </rect>
   </property>
@@ -167,6 +167,13 @@
      </layout>
     </item>
     <item>
+     <widget class="QPushButton" name="templates_button">
+      <property name="text">
+       <string>btn6 - templates</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -193,7 +200,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1025</width>
+     <width>672</width>
      <height>21</height>
     </rect>
    </property>
